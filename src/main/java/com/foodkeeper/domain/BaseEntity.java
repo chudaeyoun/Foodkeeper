@@ -14,20 +14,20 @@ public class BaseEntity {
     protected Long id;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "CREATED_TIME", nullable = false)
-    private Date createdTime;
+    @Column(name = "CREATED_AT", nullable = false)
+    private Date createdAt;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "UPDATED_TIME", nullable = false)
-    private Date updatedTime;
+    @Column(name = "UPDATED_AT", nullable = false)
+    private Date updatedAt;
 
     @PrePersist
     protected void onPersist() {
-        this.createdTime = this.updatedTime = new Date();
+        this.createdAt = this.updatedAt = new Date();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.updatedTime = new Date();
+        this.updatedAt = new Date();
     }
 }

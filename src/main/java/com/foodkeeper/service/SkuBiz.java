@@ -1,7 +1,6 @@
 package com.foodkeeper.service;
 
 import com.foodkeeper.domain.Sku;
-import com.foodkeeper.domain.User;
 
 import java.util.List;
 

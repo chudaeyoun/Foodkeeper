@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.Date;
 
 @Entity
 @Table(name = "skus")
@@ -22,5 +23,5 @@ public class Sku extends BaseEntity {
     private String barcode;
 
     @Column(name = "expired_at", nullable = false)
-    private String expiredAt;
+    private Date expiredAt;
 }
