@@ -1,9 +1,10 @@
 package com.foodkeeper.service;
 
-import com.foodkeeper.domain.OrderItem;
+import com.foodkeeper.domain.OrderItemDto;
 
 import java.util.List;
 
 public interface OrderItemBiz {
-    List<OrderItem> getOrderItemListByUserId(Long userId);
+    List<OrderItemDto> getOrderItemListByUserId(Long userId);
+    void changeNotificationById(Long orderItemId);
 }

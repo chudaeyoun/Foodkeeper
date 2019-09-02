@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Builder
 public class Order extends BaseEntity {
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 

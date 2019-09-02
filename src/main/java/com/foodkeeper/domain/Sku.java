@@ -24,4 +24,7 @@ public class Sku extends BaseEntity {
 
     @Column(name = "expired_at", nullable = false)
     private Date expiredAt;
+
+    @Column(name = "image_url")
+    private String imageUrl;
 }

@@ -11,15 +11,15 @@ import javax.persistence.*;
 @Builder
 public class OrderItem extends BaseEntity {
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sku_id")
     private Sku sku;
 
@@ -27,5 +27,5 @@ public class OrderItem extends BaseEntity {
     private int quantity;
 
     @Column(name = "noti_yn", nullable = false)
-    private boolean noti_yn;
+    private boolean noti;
 }
