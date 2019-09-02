@@ -47,7 +47,7 @@ public class OrderItemBizImpl implements OrderItemBiz {
     @Override
     public void changeNotificationById(Long orderItemId) {
         Optional<OrderItem> orderItem = orderItemRepository.findById(orderItemId);
-        if (orderItem.isPresent()){
+        if (orderItem.isPresent()) {
             orderItem.get().setNoti(false);
             orderItemRepository.save(orderItem.get());
         }

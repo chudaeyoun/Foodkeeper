@@ -2,8 +2,6 @@ package com.foodkeeper;
 
 import com.foodkeeper.domain.Sku;
 import com.foodkeeper.domain.User;
-import com.foodkeeper.repository.OrderItemRepository;
-import com.foodkeeper.repository.OrderRepository;
 import com.foodkeeper.repository.SkuRepository;
 import com.foodkeeper.repository.UserRepository;
 import com.google.common.collect.Lists;
