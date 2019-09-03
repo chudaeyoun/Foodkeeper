@@ -91,7 +91,13 @@ public class OrderController {
                 if (sku.isPresent()) {
                     int quantity = orderDto.getOrderMap().get(skuId);
                     totalPrice += sku.get().getPrice() * quantity;
-                    OrderItem orderItem = OrderItem.builder().order(order).user(order.getUser()).sku(sku.get()).quantity(quantity).noti(true).build();
+                    OrderItem orderItem = OrderItem.builder()
+                            .order(order)
+                            .user(order.getUser())
+                            .sku(sku.get())
+                            .quantity(quantity)
+                            .noti(true)
+                            .build();
                     orderItemRepository.save(orderItem);
                 } else {
                     String message = "일치하는 상품이 없습니다 skuId =>> " + skuId;

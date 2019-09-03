@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -37,13 +38,8 @@ public class OrderItemController {
         }
 
         try {
-            List<OrderItemDto> orderItemList = orderItemBiz.getOrderItemListByUserId(user.getId());
-            if (orderItemList == null) {
-                String message = "해당 사용자와 일치하는 주문 상품이 없습니다. (유통기한 +5일 이내)";
-                logger.error(message);
-                return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
-            }
-            return new ResponseEntity(orderItemList, HttpStatus.OK);
+            HashMap<String, List<OrderItemDto>> orderItemMap = orderItemBiz.getOrderItemMapByUserId(user.getId());
+            return new ResponseEntity(orderItemMap, HttpStatus.OK);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

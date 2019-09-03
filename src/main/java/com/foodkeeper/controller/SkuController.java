@@ -1,6 +1,6 @@
 package com.foodkeeper.controller;
 
-import com.foodkeeper.domain.Sku;
+import com.foodkeeper.domain.SkuDto;
 import com.foodkeeper.service.SkuBiz;
 import com.google.common.base.Strings;
 import org.slf4j.Logger;
@@ -25,9 +25,9 @@ public class SkuController {
     private SkuBiz skuBiz;
 
     @GetMapping("/lists")
-    public ResponseEntity<List<Sku>> getAllSkuList() {
+    public ResponseEntity getAllSkuList() {
         try {
-            List<Sku> skuList = skuBiz.getAllSkuList();
+            List<SkuDto> skuList = skuBiz.getAllSkuList();
             if (skuList.isEmpty()) {
                 return new ResponseEntity(HttpStatus.NO_CONTENT);
             }
@@ -49,7 +49,7 @@ public class SkuController {
         }
 
         try {
-            Sku sku = skuBiz.getSkuByBarcode(barcode);
+            SkuDto sku = skuBiz.getSkuByBarcode(barcode);
             if (sku == null) {
                 String message = "해당 barcode와 일치하는 상품이 없습니다";
                 logger.error(message);
