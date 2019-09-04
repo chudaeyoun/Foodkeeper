@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -18,6 +19,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+@EnableElasticsearchRepositories
 @SpringBootApplication
 public class FoodKeeperApplication implements CommandLineRunner {
 
@@ -38,7 +40,7 @@ public class FoodKeeperApplication implements CommandLineRunner {
     public void run(String... args) {
         userRepository.save(getUser());
         skuRepository.saveAll(getSkuList());
-        //orderItemESRepository.save(getOrderItemESDto());
+//        orderItemESRepository.save(getOrderItemESDto());
     }
 
     private User getUser() {
