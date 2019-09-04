@@ -36,4 +36,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.2'
     compile 'com.google.guava:guava:18.0'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+    compile('org.elasticsearch.client:transport:5.1.1')
 }

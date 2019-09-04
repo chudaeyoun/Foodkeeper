@@ -6,6 +6,6 @@ import java.util.Map;
 
 @Data
 public class OrderDto {
-    String userId;
-    Map<Long, Integer> orderMap;
+    private String userId;
+    private Map<Long, Integer> orderMap;
 }

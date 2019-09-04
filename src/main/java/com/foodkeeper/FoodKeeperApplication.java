@@ -1,7 +1,9 @@
 package com.foodkeeper;
 
+import com.foodkeeper.domain.OrderItemESDto;
 import com.foodkeeper.domain.Sku;
 import com.foodkeeper.domain.User;
+import com.foodkeeper.repository.OrderItemESRepository;
 import com.foodkeeper.repository.SkuRepository;
 import com.foodkeeper.repository.UserRepository;
 import com.google.common.collect.Lists;
@@ -10,7 +12,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @SpringBootApplication
@@ -22,6 +27,9 @@ public class FoodKeeperApplication implements CommandLineRunner {
     @Autowired
     private SkuRepository skuRepository;
 
+    @Autowired
+    private OrderItemESRepository orderItemESRepository;
+
     public static void main(String[] args) {
         SpringApplication.run(FoodKeeperApplication.class, args);
     }
@@ -30,6 +38,7 @@ public class FoodKeeperApplication implements CommandLineRunner {
     public void run(String... args) {
         userRepository.save(getUser());
         skuRepository.saveAll(getSkuList());
+        //orderItemESRepository.save(getOrderItemESDto());
     }
 
     private User getUser() {
@@ -119,5 +128,10 @@ public class FoodKeeperApplication implements CommandLineRunner {
         skuList.add(sku7);
 
         return skuList;
+    }
+
+    private OrderItemESDto getOrderItemESDto(){
+        DateFormat df = new SimpleDateFormat("yyyy.MM.dd");
+        return OrderItemESDto.builder().id(1L).skuName("테스트상품").orderItemId(1L).skuImage("test").orderedAt(df.format(new Date())).expiredAt(df.format(new Date())).build();
     }
 }
