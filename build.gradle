@@ -1,6 +1,6 @@
 buildscript {
     ext{
-        springBootVersion='2.0.4.RELEASE'
+        springBootVersion='2.1.2.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -36,4 +36,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.2'
     compile 'com.google.guava:guava:18.0'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 }
+
+
