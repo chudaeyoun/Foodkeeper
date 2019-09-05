@@ -27,26 +27,24 @@ public class FcmController {
     PcmBizImpl pcmBizImpl;
 
     @PostMapping("/push")
-    public ResponseEntity pushFcm(@RequestBody Map<String, Object> paramInfo) {
+    public ResponseEntity pushFcm(@RequestBody Map<String, Object> param) {
 
-        if (paramInfo == null) {
+        if (param == null) {
             String message = "param 를 확인해주세요. 빈 값입니다.";
             logger.error(message);
             return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
         }
 
-        Map<String, Object> retVal = Maps.newHashMap();
+        logger.info("token: " + param.get("token"));
 
-        logger.info("token: " + paramInfo.get("token"));
-
-        //FCM 메시지 전송//
+        //FCM 메시지 전송
         JsonObject body = new JsonObject();
 
-        body.addProperty("to", "clientToken"); //여러개의 메시지일 경우 registration_ids, 단일 메세지는 to사용//
+        body.addProperty("to", param.get("token").toString()); //여러개의 메시지일 경우 registration_ids, 단일 메세지는 to 사용
 
         JsonObject notification = new JsonObject();
         notification.addProperty("title", "FCM Test App");
-        notification.addProperty("body", "받아랏 태호");
+        notification.addProperty("body", "유통기한이 5일 남았습니다.");
 
         body.add("notification", notification);
 
@@ -66,6 +64,7 @@ public class FcmController {
             e.printStackTrace();
         }
 
+        logger.error("정상적으로 push 되지 않았습니다.");
         return new ResponseEntity<>("Push Notification ERROR!", HttpStatus.BAD_REQUEST);
     }
 }
