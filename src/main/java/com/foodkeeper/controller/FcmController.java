@@ -1,19 +1,21 @@
 package com.foodkeeper.controller;
 
 
+import com.foodkeeper.service.PcmBizImpl;
+import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.BufferedReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/fcm")
@@ -21,65 +23,49 @@ public class FcmController {
 
     public static final Logger logger = LoggerFactory.getLogger(FcmController.class);
 
-    private static final String apiKey = "AAAAAJISX0E:APA91bFxi3ohERc-GwyF8mQunobLJKpUMsQi4pliJOX9-IlhgVbDbG60B8haYIeD_8QPkU1mwWWr4aoIV5rhC5WMjR4zZNtv9wA9-XWOzs5aKpqi9zsqHSRb4wIuo4CT_JkYR7pog25F";
-    private static final String senderId = "2450677569";
-    private static final String fcmUrl = "https://fcm.googleapis.com/fcm/send";
+    @Autowired
+    PcmBizImpl pcmBizImpl;
 
     @PostMapping("/push")
-    public ResponseEntity pushFcm(@RequestBody String clientFcmToken) {
+    public ResponseEntity pushFcm(@RequestBody Map<String, Object> paramInfo) {
 
-        if (clientFcmToken == null && "".equals(clientFcmToken)) {
-            String message = "fcmToken 를 확인해주세요. 빈 값입니다.";
+        if (paramInfo == null) {
+            String message = "param 를 확인해주세요. 빈 값입니다.";
             logger.error(message);
             return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
         }
 
-        //path 설정해야함
-        String path = "C:/** .. **/webapp/resources/google/{fcm-test-*******************************.json}";
-        String MESSAGING_SCOPE = "https://www.googleapis.com/auth/firebase.messaging";
-        String[] SCOPES = { MESSAGING_SCOPE };
+        Map<String, Object> retVal = Maps.newHashMap();
 
-        HttpURLConnection conn;
-        OutputStreamWriter wr;
-        BufferedReader br;
-        URL url;
+        logger.info("token: " + paramInfo.get("token"));
+
+        //FCM 메시지 전송//
+        JsonObject body = new JsonObject();
+
+        body.addProperty("to", "clientToken"); //여러개의 메시지일 경우 registration_ids, 단일 메세지는 to사용//
+
+        JsonObject notification = new JsonObject();
+        notification.addProperty("title", "FCM Test App");
+        notification.addProperty("body", "받아랏 태호");
+
+        body.add("notification", notification);
+
+        logger.info("body: " + body.toString());
+
+        HttpEntity<String> request = new HttpEntity<>(body.toString());
+
+        CompletableFuture<String> pushNotification = pcmBizImpl.send(request);
+        CompletableFuture.allOf(pushNotification).join();
 
         try {
-            // http 컨넥션 설정
-            url = new URL(fcmUrl);
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setUseCaches(false);
-            conn.setDoInput(true);
-            conn.setDoOutput(true);
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Authorization", "key=" + apiKey);
-            conn.setRequestProperty("Content-Type", "application/json");
-
-            //알림 + 데이터 메세지 형태의 전달
-            JsonObject json = new JsonObject();
-            JsonObject info = new JsonObject();
-            JsonObject dataJson = new JsonObject();
-
-            //앱 백그라운드 발송시 기본noti는 이 내용을 참조한다
-            info.addProperty("title", "알림");
-            //info.addProperty("body", msgBody); // Notification body
-            info.addProperty("body", "test");
-            info.addProperty("sound", "default");
-
-            //noti 알림 부분
-            json.add("notification", info);
-
-            //디바이스전송 (앱단에서 생성된 토큰키)
-            json.addProperty("to", clientFcmToken); // deviceID
-            //json.addProperty("to", "/topics/" + topicsKey);
-
-            return new ResponseEntity("정상적으로 client 로 전송 되었습니다", HttpStatus.OK);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            String firebaseResponse = pushNotification.get();
+            return new ResponseEntity<>(firebaseResponse, HttpStatus.OK);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
+
+        return new ResponseEntity<>("Push Notification ERROR!", HttpStatus.BAD_REQUEST);
     }
-
-
-
 }
