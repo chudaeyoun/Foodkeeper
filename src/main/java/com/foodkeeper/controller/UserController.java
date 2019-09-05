@@ -1,5 +1,6 @@
 package com.foodkeeper.controller;
 
+import com.foodkeeper.domain.CommonResponse;
 import com.foodkeeper.domain.User;
 import com.foodkeeper.service.UserBiz;
 import com.google.common.base.Strings;
@@ -29,7 +30,7 @@ public class UserController {
         if (Strings.isNullOrEmpty(userId)) {
             String message = "파라미터 확인을 해주세요. param {userId} => " + userId;
             logger.error(message);
-            return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new CommonResponse("ERROR", message), HttpStatus.BAD_REQUEST);
         }
 
         try {
@@ -37,12 +38,12 @@ public class UserController {
             if (user == null) {
                 String message = "userId와 일치하는 User가 없습니다";
                 logger.error(message);
-                return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
+                return new ResponseEntity(new CommonResponse("ERROR", message), HttpStatus.BAD_REQUEST);
             }
-            return new ResponseEntity(user, HttpStatus.OK);
+            return new ResponseEntity(new CommonResponse("SUCCESS", user), HttpStatus.OK);
         } catch (Exception e) {
             logger.error(e.getMessage());
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(new CommonResponse("ERROR", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

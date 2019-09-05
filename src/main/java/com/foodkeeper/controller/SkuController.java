@@ -1,5 +1,6 @@
 package com.foodkeeper.controller;
 
+import com.foodkeeper.domain.CommonResponse;
 import com.foodkeeper.domain.SkuDto;
 import com.foodkeeper.service.SkuBiz;
 import com.google.common.base.Strings;
@@ -29,12 +30,12 @@ public class SkuController {
         try {
             List<SkuDto> skuList = skuBiz.getAllSkuList();
             if (skuList.isEmpty()) {
-                return new ResponseEntity(HttpStatus.NO_CONTENT);
+                return new ResponseEntity(new CommonResponse("ERROR", "상품이 없습니다"), HttpStatus.NO_CONTENT);
             }
-            return new ResponseEntity(skuList, HttpStatus.OK);
+            return new ResponseEntity(new CommonResponse("SUCCESS", skuList), HttpStatus.OK);
         } catch (Exception e) {
             logger.error(e.getMessage());
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(new CommonResponse("ERROR", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -45,7 +46,7 @@ public class SkuController {
         if (Strings.isNullOrEmpty(barcode)) {
             String message = "파라미터 확인을 해주세요. param {barcode} => " + barcode;
             logger.error(message);
-            return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new CommonResponse("ERROR", message), HttpStatus.BAD_REQUEST);
         }
 
         try {
@@ -53,12 +54,12 @@ public class SkuController {
             if (sku == null) {
                 String message = "해당 barcode와 일치하는 상품이 없습니다";
                 logger.error(message);
-                return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
+                return new ResponseEntity(new CommonResponse("ERROR", message), HttpStatus.BAD_REQUEST);
             }
-            return new ResponseEntity(sku, HttpStatus.OK);
+            return new ResponseEntity(new CommonResponse("SUCCESS", sku), HttpStatus.OK);
         } catch (Exception e) {
             logger.error(e.getMessage());
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(new CommonResponse("ERROR", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.foodkeeper.controller;
 
+import com.foodkeeper.domain.CommonResponse;
 import com.foodkeeper.domain.OrderItemDto;
 import com.foodkeeper.domain.User;
 import com.foodkeeper.service.OrderItemBiz;
@@ -34,15 +35,15 @@ public class OrderItemController {
         if (user == null) {
             String message = "파라미터 확인을 해주세요. userId와 일치하는 사용자가 없습니다";
             logger.error(message);
-            return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new CommonResponse("ERROR", message), HttpStatus.BAD_REQUEST);
         }
 
         try {
             HashMap<String, List<OrderItemDto>> orderItemMap = orderItemBiz.getOrderItemMapByUserId(user.getId());
-            return new ResponseEntity(orderItemMap, HttpStatus.OK);
+            return new ResponseEntity(new CommonResponse("SUCCESS", orderItemMap), HttpStatus.OK);
         } catch (Exception e) {
             logger.error(e.getMessage());
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(new CommonResponse("ERROR", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -50,10 +51,10 @@ public class OrderItemController {
     public ResponseEntity changeNotification(@RequestParam("orderItemId") Long orderItemId) {
         try {
             orderItemBiz.changeNotificationById(orderItemId);
-            return new ResponseEntity("정상적으로 수정되었습니다", HttpStatus.OK);
+            return new ResponseEntity(new CommonResponse("SUCCESS", "정상적으로 수정되었습니다"), HttpStatus.OK);
         } catch (Exception e) {
             logger.error(e.getMessage());
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(new CommonResponse("ERROR", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

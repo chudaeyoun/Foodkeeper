@@ -1,6 +1,7 @@
 package com.foodkeeper.controller;
 
 
+import com.foodkeeper.domain.CommonResponse;
 import com.foodkeeper.service.PcmBizImpl;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
@@ -32,7 +33,7 @@ public class FcmController {
         if (param == null) {
             String message = "param 를 확인해주세요. 빈 값입니다.";
             logger.error(message);
-            return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new CommonResponse("ERROR", message), HttpStatus.BAD_REQUEST);
         }
 
         logger.info("token: " + param.get("token"));
@@ -59,7 +60,7 @@ public class FcmController {
         try {
             String firebaseResponse = pushNotification.get();
             logger.info("firebaseResponse: " + firebaseResponse);
-            return new ResponseEntity<>(firebaseResponse, HttpStatus.OK);
+            return new ResponseEntity(new CommonResponse("SUCCESS", firebaseResponse), HttpStatus.OK);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -67,6 +68,6 @@ public class FcmController {
         }
 
         logger.error("push 하는 중 에러가 발생되었습니다.");
-        return new ResponseEntity<>("Push Notification ERROR!", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(new CommonResponse("ERROR", "Push Notification ERROR!"), HttpStatus.BAD_REQUEST);
     }
 }

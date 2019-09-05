@@ -1,7 +1,9 @@
 package com.foodkeeper.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +14,8 @@ import java.util.Date;
 @Table(name = "skus")
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Sku extends BaseEntity {
     @Column(name = "name", length = 10)
     private String name;

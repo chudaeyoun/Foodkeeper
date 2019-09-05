@@ -1,7 +1,9 @@
 package com.foodkeeper.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -9,6 +11,8 @@ import javax.persistence.*;
 @Table(name = "orders")
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Order extends BaseEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
