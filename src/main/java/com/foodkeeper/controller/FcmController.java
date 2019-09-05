@@ -44,7 +44,8 @@ public class FcmController {
 
         JsonObject notification = new JsonObject();
         notification.addProperty("title", "FCM Test App");
-        notification.addProperty("body", "유통기한이 5일 남았습니다.");
+        //notification.addProperty("body", "유통기한이 5일 남았습니다.");
+        notification.addProperty("body", "fire in the hole");
 
         body.add("notification", notification);
 
@@ -57,6 +58,7 @@ public class FcmController {
 
         try {
             String firebaseResponse = pushNotification.get();
+            logger.info("firebaseResponse: " + firebaseResponse);
             return new ResponseEntity<>(firebaseResponse, HttpStatus.OK);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -64,7 +66,7 @@ public class FcmController {
             e.printStackTrace();
         }
 
-        logger.error("정상적으로 push 되지 않았습니다.");
+        logger.error("push 하는 중 에러가 발생되었습니다.");
         return new ResponseEntity<>("Push Notification ERROR!", HttpStatus.BAD_REQUEST);
     }
 }
