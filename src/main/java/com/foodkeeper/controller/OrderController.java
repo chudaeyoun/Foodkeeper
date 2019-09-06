@@ -37,6 +37,7 @@ public class OrderController {
     @Autowired
     private SkuRepository skuRepository;
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/lists")
     public ResponseEntity getOrderList(@RequestParam("userId") Long userId) {
         logger.info("param {userId} =>" + userId);
@@ -73,6 +74,7 @@ public class OrderController {
 //             }
 //      }
 
+    @CrossOrigin(origins = "*")
     @PostMapping("/save")
     public ResponseEntity saveOrder(@RequestBody OrderDto orderDto) {
         User user = userRepository.findByUserId(orderDto.getUserId());

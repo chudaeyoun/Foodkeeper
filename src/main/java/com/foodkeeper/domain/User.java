@@ -16,4 +16,10 @@ import javax.persistence.Table;
 public class User extends BaseEntity {
     @Column(name = "user_id", length = 10)
     private String userId;
+
+    @Column(name = "password", length = 20)
+    private String password;
+
+    @Column(name = "fcm_token", length = 50)
+    private String token;
 }
