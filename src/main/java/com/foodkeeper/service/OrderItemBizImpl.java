@@ -25,7 +25,7 @@ public class OrderItemBizImpl implements OrderItemBiz {
 
     @Override
     public HashMap<String, List<OrderItemDto>> getOrderItemMapByUserId(Long userId) {
-        List<OrderItem> orderItemList = orderItemRepository.findByUserIdAndNoti(userId, true);
+        List<OrderItem> orderItemList = orderItemRepository.findByUse(true);
         orderItemList.sort(Comparator.comparing(o -> o.getSku().getExpiredAt()));
 
         // 오늘보다 이전의 주문은 리스트 뒤쪽으로 이동
@@ -63,7 +63,17 @@ public class OrderItemBizImpl implements OrderItemBiz {
     }
 
     @Override
-    public void changeNotificationById(Long orderItemId) {
+    public void deleteOrderItemById(Long orderItemId) {
+        Optional<OrderItem> orderItem = orderItemRepository.findById(orderItemId);
+        if (orderItem.isPresent()) {
+            orderItem.get().setUse(false);
+            orderItem.get().setNoti(false);
+            orderItemRepository.save(orderItem.get());
+        }
+    }
+
+    @Override
+    public void disuseNotificationById(Long orderItemId) {
         Optional<OrderItem> orderItem = orderItemRepository.findById(orderItemId);
         if (orderItem.isPresent()) {
             orderItem.get().setNoti(false);
@@ -73,7 +83,7 @@ public class OrderItemBizImpl implements OrderItemBiz {
 
     @Override
     public List<NotificationItemDto> getNotificationItemList() {
-        List<OrderItem> orderItemList = orderItemRepository.findByNoti(true);
+        List<OrderItem> orderItemList = orderItemRepository.findByUseAndNoti(true, true);
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -1);
 

@@ -50,9 +50,9 @@ public class OrderItemController {
 
     @CrossOrigin(origins = "*")
     @PutMapping("/notification")
-    public ResponseEntity changeNotification(@RequestParam("orderItemId") Long orderItemId) {
+    public ResponseEntity deleteOrderItemById(@RequestParam("orderItemId") Long orderItemId) {
         try {
-            orderItemBiz.changeNotificationById(orderItemId);
+            orderItemBiz.deleteOrderItemById(orderItemId);
             return new ResponseEntity(new CommonResponse("SUCCESS", "정상적으로 수정되었습니다"), HttpStatus.OK);
         } catch (Exception e) {
             logger.error(e.getMessage());

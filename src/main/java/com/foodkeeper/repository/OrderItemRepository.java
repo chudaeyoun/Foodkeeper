@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface OrderItemRepository extends CrudRepository<OrderItem, Long> {
-    List<OrderItem> findByUserIdAndNoti(Long userId, Boolean noti);
-    List<OrderItem> findByNoti(Boolean noti);
+    List<OrderItem> findByUserId(Long userId);
+    List<OrderItem> findByUseAndNoti(Boolean use, Boolean noti);
+    List<OrderItem> findByUse(Boolean use);
 }

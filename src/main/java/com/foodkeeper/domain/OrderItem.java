@@ -32,4 +32,7 @@ public class OrderItem extends BaseEntity {
 
     @Column(name = "noti_yn", nullable = false)
     private boolean noti;
+
+    @Column(name = "use_yn", nullable = false)
+    private boolean use;
 }

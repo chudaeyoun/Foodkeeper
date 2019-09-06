@@ -85,6 +85,7 @@ public class OrderController {
                             .user(order.getUser())
                             .sku(sku.get())
                             .quantity(quantity)
+                            .use(true)
                             .noti(true)
                             .build();
                     orderItemRepository.save(orderItem);
