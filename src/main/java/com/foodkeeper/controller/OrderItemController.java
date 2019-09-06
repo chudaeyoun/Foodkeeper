@@ -29,12 +29,12 @@ public class OrderItemController {
 
     @CrossOrigin(origins = "*")
     @GetMapping("/lists")
-    public ResponseEntity getOrderItemList(@RequestParam("userId") String userId) {
-        logger.info("param {userId} =>" + userId);
+    public ResponseEntity getOrderItemList(@RequestParam("custNo") String custNo) {
+        logger.info("param {custNo} =>" + custNo);
 
-        User user = userBiz.getUserByUserId(userId);
+        User user = userBiz.getUserByCustNo(custNo);
         if (user == null) {
-            String message = "파라미터 확인을 해주세요. userId와 일치하는 사용자가 없습니다";
+            String message = "파라미터 확인을 해주세요. custNo와 일치하는 사용자가 없습니다";
             logger.error(message);
             return new ResponseEntity(new CommonResponse("ERROR", message), HttpStatus.BAD_REQUEST);
         }

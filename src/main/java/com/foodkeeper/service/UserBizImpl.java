@@ -12,7 +12,7 @@ public class UserBizImpl implements UserBiz {
     private UserRepository userRepository;
 
     @Override
-    public User getUserByUserId(String userId) {
-        return userRepository.findByUserId(userId);
+    public User getUserByCustNo(String custNo) {
+        return userRepository.findByCustNo(custNo);
     }
 }

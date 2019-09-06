@@ -37,7 +37,6 @@ public class OrderController {
     @Autowired
     private SkuRepository skuRepository;
 
-    @CrossOrigin(origins = "*")
     @GetMapping("/lists")
     public ResponseEntity getOrderList(@RequestParam("userId") Long userId) {
         logger.info("param {userId} =>" + userId);
@@ -62,24 +61,12 @@ public class OrderController {
         }
     }
 
-//      POST 예제
-//      http://localhost:8080/order/save
-//      {
-//        "userId": "admin",
-//            "orderMap" : {
-//                "1": 3,
-//                "2": 4,
-//                "3": 10,
-//                "4": 1
-//             }
-//      }
-
     @CrossOrigin(origins = "*")
     @PostMapping("/save")
     public ResponseEntity saveOrder(@RequestBody OrderDto orderDto) {
-        User user = userRepository.findByUserId(orderDto.getUserId());
+        User user = userRepository.findByCustNo(orderDto.getCustNo());
         if (user == null) {
-            String message = "userId를 확인해주세요. 일치하는 사용자가 없습니다.";
+            String message = "custNo를 확인해주세요. 일치하는 사용자가 없습니다.";
             logger.error(message);
             return new ResponseEntity(new CommonResponse("ERROR", message), HttpStatus.BAD_REQUEST);
         }
