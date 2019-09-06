@@ -19,7 +19,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor // 생성자 DI를 위한 lombok 어노테이션
 @Configuration
