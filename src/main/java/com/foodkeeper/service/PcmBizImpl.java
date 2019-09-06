@@ -8,10 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -54,8 +56,11 @@ public class PcmBizImpl implements PcmBiz {
         List<ClientHttpRequestInterceptor> interceptors = Lists.newArrayList();
 
         interceptors.add(new PcmRequestInterceptor("Authorization", "key=" + FIREBASE_SERVER_KEY));
-        interceptors.add(new PcmRequestInterceptor("Content-Type", "application/json"));
+        interceptors.add(new PcmRequestInterceptor("Content-Type", "application/json;charset=UTF-8"));
+
         restTemplate.setInterceptors(interceptors);
+        restTemplate.getMessageConverters()
+                .add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
 
         String firebaseResponse = restTemplate.postForObject(FIREBASE_API_URL, entity, String.class);
         CompletableFuture<String> pushNotification = CompletableFuture.completedFuture(firebaseResponse);
@@ -63,7 +68,7 @@ public class PcmBizImpl implements PcmBiz {
 
         try {
             logger.info("firebaseResponse info : " + pushNotification.get());
-            if(!pushNotification.get().contains("fail")) {
+            if (!pushNotification.get().contains("fail")) {
                 fcmDto.setSuccess(true);
             }
         } catch (Exception e) {
