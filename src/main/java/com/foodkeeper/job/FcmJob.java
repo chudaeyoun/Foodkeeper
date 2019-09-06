@@ -19,7 +19,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor // 생성자 DI를 위한 lombok 어노테이션
 @Configuration
@@ -56,7 +55,7 @@ public class FcmJob {
                     if(notificationItemDtoList.size() > 0) {
                         FcmDto fcmDto = new FcmDto();
                         fcmDto.setToken(notificationItemDtoList.get(0).getToken());
-                        fcmDto.setTitle("구매한 물품 유통기한 임박");
+                        fcmDto.setTitle("유통기한 임박");
                         fcmDto.setBody("총 " + notificationItemDtoList.size() + "개의 유통기한 임박 상품이 있습니다.");
 
                         logger.info("=========================");
