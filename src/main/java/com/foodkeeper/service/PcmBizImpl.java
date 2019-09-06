@@ -27,7 +27,7 @@ public class PcmBizImpl implements PcmBiz {
 
     @Async
     @Override
-    public CompletableFuture<String> send(HttpEntity<String> entity) {
+    public CompletableFuture<String> send(HttpEntity entity) {
         RestTemplate restTemplate = new RestTemplate();
 
         List<ClientHttpRequestInterceptor> interceptors = Lists.newArrayList();

@@ -20,7 +20,7 @@ public class User extends BaseEntity {
     @Column(name = "cust_no", length = 11)
     private String custNo;
 
-    @Column(name = "password", length = 20)
+    @Column(name = "password")
     private String password;
 
     @Column(name = "fcm_token", length = 50)
