@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface OrderItemBiz {
     HashMap<String, List<OrderItemDto>> getOrderItemMapByUserId(Long userId);
-    void changeNotificationById(Long orderItemId);
+    void deleteOrderItemById(Long orderItemId);
+    void disuseNotificationById(Long orderItemId);
     List<NotificationItemDto> getNotificationItemList();
 }

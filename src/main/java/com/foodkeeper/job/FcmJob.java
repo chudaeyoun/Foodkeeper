@@ -69,7 +69,7 @@ public class FcmJob {
                             }
                             //푸시 중복 기록
                             if(fcmDto.getToken() == notificationItemDto.getToken() && fcmDto.isSuccess()) {
-                                orderItemBiz.changeNotificationById(notificationItemDto.getOrderItemId());
+                                orderItemBiz.disuseNotificationById(notificationItemDto.getOrderItemId());
                             }
                         }
                     }
