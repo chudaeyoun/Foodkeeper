@@ -10,6 +10,8 @@ public class OrderItemDto {
     private Long orderItemId;
     // 상품명
     private String skuName;
+    // 바코드
+    private String barcode;
     // 상품 이미지
     private String skuImage;
     // 구매날짜

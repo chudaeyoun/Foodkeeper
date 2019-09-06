@@ -13,6 +13,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class OrderItemBizImpl implements OrderItemBiz {
@@ -27,11 +28,28 @@ public class OrderItemBizImpl implements OrderItemBiz {
         List<OrderItem> orderItemList = orderItemRepository.findByUserIdAndNoti(userId, true);
         orderItemList.sort(Comparator.comparing(o -> o.getSku().getExpiredAt()));
 
+        // 오늘보다 이전의 주문은 리스트 뒤쪽으로 이동
+        List<OrderItem> beforeList = orderItemList.stream()
+                .filter(i -> i.getSku().getExpiredAt().before(new Date())
+                && !df.format(i.getSku().getExpiredAt()).equals(df.format(new Date())))
+                .collect(Collectors.toList());
+
+        // 오늘 이후의 주문은 앞쪽
+        List<OrderItem> afterList = orderItemList.stream()
+                .filter(i -> i.getSku().getExpiredAt().after(new Date())
+                || df.format(i.getSku().getExpiredAt()).equals(df.format(new Date())))
+                .collect(Collectors.toList());
+
+        List<OrderItem> newOrderItemList = Stream.of(afterList, beforeList)
+                .flatMap(x -> x.stream())
+                .collect(Collectors.toList());
+
         List<OrderItemDto> orderItemDtoList = Lists.newArrayList();
-        for (OrderItem item : orderItemList) {
+        for (OrderItem item : newOrderItemList) {
             orderItemDtoList.add(OrderItemDto.builder()
                     .orderItemId(item.getId())
                     .skuName(item.getSku().getName())
+                    .barcode(item.getSku().getBarcode())
                     .skuImage(item.getSku().getImageUrl())
                     .orderedAt(df.format(item.getCreatedAt()))
                     .expiredAt(df.format(item.getSku().getExpiredAt()))
