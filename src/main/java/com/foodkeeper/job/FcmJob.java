@@ -55,7 +55,7 @@ public class FcmJob {
                     if(notificationItemDtoList.size() > 0) {
                         FcmDto fcmDto = new FcmDto();
                         fcmDto.setToken(notificationItemDtoList.get(0).getToken());
-                        fcmDto.setTitle("구매한 물품 유통기한 임박");
+                        fcmDto.setTitle("유통기한 임박");
                         fcmDto.setBody("총 " + notificationItemDtoList.size() + "개의 유통기한 임박 상품이 있습니다.");
 
                         logger.info("=========================");
