@@ -12,8 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -37,6 +40,9 @@ public class FoodKeeperApplication implements CommandLineRunner {
     @Autowired
     private OrderItemESRepository orderItemESRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public static void main(String[] args) {
         SpringApplication.run(FoodKeeperApplication.class, args);
     }
@@ -48,25 +54,30 @@ public class FoodKeeperApplication implements CommandLineRunner {
 //        orderItemESRepository.save(getOrderItemESDto());
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     private List<User> getUserList() {
         List<User> userList = Lists.newArrayList();
         User user = new User();
         user.setUserId("admin");
         user.setCustNo("admin");
-        user.setPassword(getRandomHexString(20));
+        user.setPassword(passwordEncoder.encode("admin"));
         user.setToken(getRandomHexString(50));
         userList.add(user);
 
         User user2 = new User();
         user2.setUserId("lth");
         user2.setCustNo("01050180048");
-        user2.setPassword(getRandomHexString(20));
+        user2.setPassword(passwordEncoder.encode("lth"));
         user2.setToken(getRandomHexString(50));
         userList.add(user2);
 
         User user3 = new User();
         user3.setUserId("ajh");
-        user3.setPassword(getRandomHexString(20));
+        user3.setPassword(passwordEncoder.encode("ajh"));
         user3.setCustNo("01076715951");
         user3.setToken(getRandomHexString(50));
         userList.add(user3);
