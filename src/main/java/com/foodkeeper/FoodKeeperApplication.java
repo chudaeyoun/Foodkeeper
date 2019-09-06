@@ -7,11 +7,13 @@ import com.foodkeeper.repository.OrderItemESRepository;
 import com.foodkeeper.repository.SkuRepository;
 import com.foodkeeper.repository.UserRepository;
 import com.google.common.collect.Lists;
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -19,6 +21,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+@EnableBatchProcessing
+@EnableScheduling
 @EnableElasticsearchRepositories
 @SpringBootApplication
 public class FoodKeeperApplication implements CommandLineRunner {

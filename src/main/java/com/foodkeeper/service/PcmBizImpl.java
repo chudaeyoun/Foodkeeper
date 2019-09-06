@@ -1,5 +1,6 @@
 package com.foodkeeper.service;
 
+import com.foodkeeper.interceptor.PcmRequestInterceptor;
 import com.google.common.collect.Lists;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.client.ClientHttpRequestInterceptor;

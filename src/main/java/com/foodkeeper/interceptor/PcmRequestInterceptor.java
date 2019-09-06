@@ -1,4 +1,4 @@
-package com.foodkeeper.service;
+package com.foodkeeper.interceptor;
 
 import java.io.IOException;
 
