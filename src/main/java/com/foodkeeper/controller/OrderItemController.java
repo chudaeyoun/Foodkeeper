@@ -27,6 +27,7 @@ public class OrderItemController {
     @Autowired
     private OrderItemBiz orderItemBiz;
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/lists")
     public ResponseEntity getOrderItemList(@RequestParam("userId") String userId) {
         logger.info("param {userId} =>" + userId);
@@ -47,6 +48,7 @@ public class OrderItemController {
         }
     }
 
+    @CrossOrigin(origins = "*")
     @PutMapping("/notification")
     public ResponseEntity changeNotification(@RequestParam("orderItemId") Long orderItemId) {
         try {

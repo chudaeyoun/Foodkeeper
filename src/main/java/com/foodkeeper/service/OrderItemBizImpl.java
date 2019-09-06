@@ -1,5 +1,6 @@
 package com.foodkeeper.service;
 
+import com.foodkeeper.domain.NotificationItemDto;
 import com.foodkeeper.domain.OrderItem;
 import com.foodkeeper.domain.OrderItemDto;
 import com.foodkeeper.repository.OrderItemRepository;
@@ -19,18 +20,12 @@ public class OrderItemBizImpl implements OrderItemBiz {
     @Autowired
     private OrderItemRepository orderItemRepository;
 
+    private DateFormat df = new SimpleDateFormat("yyyy.MM.dd");
+
     @Override
     public HashMap<String, List<OrderItemDto>> getOrderItemMapByUserId(Long userId) {
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, 5);
         List<OrderItem> orderItemList = orderItemRepository.findByUserIdAndNoti(userId, true);
-        // 현재 < 유통기한 < 현재 + 5일
-        orderItemList.stream()
-                .filter(i -> i.getSku().getExpiredAt().after(new Date())
-                        && i.getSku().getExpiredAt().before((cal.getTime())))
-                .collect(Collectors.toList());
 
-        DateFormat df = new SimpleDateFormat("yyyy.MM.dd");
         List<OrderItemDto> orderItemDtoList = Lists.newArrayList();
         for (OrderItem item : orderItemList) {
             orderItemDtoList.add(OrderItemDto.builder()
@@ -54,5 +49,33 @@ public class OrderItemBizImpl implements OrderItemBiz {
             orderItem.get().setNoti(false);
             orderItemRepository.save(orderItem.get());
         }
+    }
+
+    @Override
+    public List<NotificationItemDto> getNotificationItemList() {
+        List<OrderItem> orderItemList = orderItemRepository.findByNoti(true);
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, 5);
+        // 현재 < 유통기한 < 현재 + 5일
+        orderItemList.stream()
+                .filter(i -> i.getSku().getExpiredAt().after(new Date())
+                        && i.getSku().getExpiredAt().before((cal.getTime())))
+                .collect(Collectors.toList());
+
+        return convertToNotificationItemDtoList(orderItemList);
+    }
+
+    private List<NotificationItemDto> convertToNotificationItemDtoList(List<OrderItem> orderItemList) {
+        List<NotificationItemDto> notificationItemDtoList = Lists.newArrayList();
+        for (OrderItem orderItem : orderItemList){
+            notificationItemDtoList.add(NotificationItemDto.builder()
+                    .userId(orderItem.getUser().getUserId())
+                    .token(orderItem.getUser().getToken())
+                    .skuName(orderItem.getSku().getName())
+                    .orderedAt(df.format(orderItem.getOrder().getCreatedAt()))
+                    .expiredAt(df.format(orderItem.getSku().getExpiredAt()))
+                    .build());
+        }
+        return notificationItemDtoList;
     }
 }

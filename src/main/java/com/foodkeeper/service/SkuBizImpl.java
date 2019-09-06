@@ -36,6 +36,7 @@ public class SkuBizImpl implements SkuBiz {
     private SkuDto convertToSkuDto(Sku sku) {
         DateFormat df = new SimpleDateFormat("yyyy.MM.dd");
         SkuDto skuDto = SkuDto.builder()
+                .id(sku.getId())
                 .name(sku.getName())
                 .barcode(sku.getBarcode())
                 .price(sku.getPrice())

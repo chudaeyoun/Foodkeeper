@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @EnableElasticsearchRepositories
 @SpringBootApplication
@@ -46,6 +47,8 @@ public class FoodKeeperApplication implements CommandLineRunner {
     private User getUser() {
         User user = new User();
         user.setUserId("admin");
+        user.setPassword(getRandomHexString(20));
+        user.setToken(getRandomHexString(50));
         return user;
     }
 
@@ -55,8 +58,8 @@ public class FoodKeeperApplication implements CommandLineRunner {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, 1);
         Sku sku = Sku.builder()
-                .name("요구르트")
-                .barcode("801056836011")
+                .name("스파클")
+                .barcode("8809055546202")
                 .price(1000)
                 .expiredAt(cal.getTime())
                 .imageUrl("https://eventusstorage.blob.core.windows.net/evs/Image/nhhackathon/9423/ProjectInfo/7ec0e6f9efdb482985db1b0135538b00.jpg")
@@ -135,5 +138,15 @@ public class FoodKeeperApplication implements CommandLineRunner {
     private OrderItemESDto getOrderItemESDto(){
         DateFormat df = new SimpleDateFormat("yyyy.MM.dd");
         return OrderItemESDto.builder().id(1L).skuName("테스트상품").orderItemId(1L).skuImage("test").orderedAt(df.format(new Date())).expiredAt(df.format(new Date())).build();
+    }
+
+    private String getRandomHexString(int numchars){
+        Random r = new Random();
+        StringBuffer sb = new StringBuffer();
+        while(sb.length() < numchars){
+            sb.append(Integer.toHexString(r.nextInt()));
+        }
+
+        return sb.toString().substring(0, numchars);
     }
 }
