@@ -8,6 +8,7 @@ import java.util.concurrent.CompletableFuture;
 
 public interface PcmBiz {
     void send(FcmDto fcmDto);
+
     CompletableFuture<String> send(HttpEntity<String> entity);
 
 }

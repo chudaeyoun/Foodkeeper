@@ -27,7 +27,7 @@ public class PcmBizImpl implements PcmBiz {
 
     @Async
     @Override
-    public CompletableFuture<String> send(HttpEntity<String> entity) {
+    public CompletableFuture<String> send(HttpEntity entity) {
         RestTemplate restTemplate = new RestTemplate();
 
         List<ClientHttpRequestInterceptor> interceptors = Lists.newArrayList();
@@ -44,7 +44,7 @@ public class PcmBizImpl implements PcmBiz {
     @Async
     @Override
     public void send(FcmDto fcmDto) {
-        HttpEntity<String> entity = SetFcmRequest(fcmDto);
+        HttpEntity entity = setFcmRequest(fcmDto);
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -76,7 +76,7 @@ public class PcmBizImpl implements PcmBiz {
         }
     }
 
-    private HttpEntity<String> SetFcmRequest(FcmDto fcmDto) {
+    private HttpEntity setFcmRequest(FcmDto fcmDto) {
         JsonObject body = new JsonObject();
 
         //여러개의 메시지일 경우 registration_ids, 단일 메세지는 to 사용
@@ -88,6 +88,6 @@ public class PcmBizImpl implements PcmBiz {
         notification.addProperty("body", fcmDto.getBody());
 
         body.add("notification", notification);
-        return new HttpEntity<>(body.toString());
+        return new HttpEntity(body.toString());
     }
 }
