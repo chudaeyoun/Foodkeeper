@@ -16,4 +16,6 @@ public class OrderItemDto {
     private String orderedAt;
     // 유통기한
     private String expiredAt;
+    // d-day
+    private String d_day;
 }
