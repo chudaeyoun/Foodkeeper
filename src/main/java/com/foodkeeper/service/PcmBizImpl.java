@@ -44,7 +44,7 @@ public class PcmBizImpl implements PcmBiz {
     @Async
     @Override
     public void send(FcmDto fcmDto) {
-        HttpEntity<String> entity = SetFcmRequest(fcmDto);
+        HttpEntity entity = setFcmRequest(fcmDto);
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -56,7 +56,7 @@ public class PcmBizImpl implements PcmBiz {
         List<ClientHttpRequestInterceptor> interceptors = Lists.newArrayList();
 
         interceptors.add(new PcmRequestInterceptor("Authorization", "key=" + FIREBASE_SERVER_KEY));
-        interceptors.add(new PcmRequestInterceptor("Content-Type", "application/json;charset=UTF-8"));
+        interceptors.add(new PcmRequestInterceptor("Content-Type", "application/json"));
 
         restTemplate.setInterceptors(interceptors);
         restTemplate.getMessageConverters()
@@ -76,7 +76,7 @@ public class PcmBizImpl implements PcmBiz {
         }
     }
 
-    private HttpEntity<String> SetFcmRequest(FcmDto fcmDto) {
+    private HttpEntity setFcmRequest(FcmDto fcmDto) {
         JsonObject body = new JsonObject();
 
         //여러개의 메시지일 경우 registration_ids, 단일 메세지는 to 사용
@@ -88,6 +88,6 @@ public class PcmBizImpl implements PcmBiz {
         notification.addProperty("body", fcmDto.getBody());
 
         body.add("notification", notification);
-        return new HttpEntity<>(body.toString());
+        return new HttpEntity(body.toString());
     }
 }
