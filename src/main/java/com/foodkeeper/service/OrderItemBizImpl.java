@@ -13,6 +13,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class OrderItemBizImpl implements OrderItemBiz {
@@ -25,15 +26,34 @@ public class OrderItemBizImpl implements OrderItemBiz {
     @Override
     public HashMap<String, List<OrderItemDto>> getOrderItemMapByUserId(Long userId) {
         List<OrderItem> orderItemList = orderItemRepository.findByUserIdAndNoti(userId, true);
+        orderItemList.sort(Comparator.comparing(o -> o.getSku().getExpiredAt()));
+
+        // 오늘보다 이전의 주문은 리스트 뒤쪽으로 이동
+        List<OrderItem> beforeList = orderItemList.stream()
+                .filter(i -> i.getSku().getExpiredAt().before(new Date())
+                && !df.format(i.getSku().getExpiredAt()).equals(df.format(new Date())))
+                .collect(Collectors.toList());
+
+        // 오늘 이후의 주문은 앞쪽
+        List<OrderItem> afterList = orderItemList.stream()
+                .filter(i -> i.getSku().getExpiredAt().after(new Date())
+                || df.format(i.getSku().getExpiredAt()).equals(df.format(new Date())))
+                .collect(Collectors.toList());
+
+        List<OrderItem> newOrderItemList = Stream.of(afterList, beforeList)
+                .flatMap(x -> x.stream())
+                .collect(Collectors.toList());
 
         List<OrderItemDto> orderItemDtoList = Lists.newArrayList();
-        for (OrderItem item : orderItemList) {
+        for (OrderItem item : newOrderItemList) {
             orderItemDtoList.add(OrderItemDto.builder()
                     .orderItemId(item.getId())
                     .skuName(item.getSku().getName())
+                    .barcode(item.getSku().getBarcode())
                     .skuImage(item.getSku().getImageUrl())
                     .orderedAt(df.format(item.getCreatedAt()))
                     .expiredAt(df.format(item.getSku().getExpiredAt()))
+                    .d_day(convertToDDay(item.getSku().getExpiredAt()))
                     .build());
         }
 
@@ -55,27 +75,53 @@ public class OrderItemBizImpl implements OrderItemBiz {
     public List<NotificationItemDto> getNotificationItemList() {
         List<OrderItem> orderItemList = orderItemRepository.findByNoti(true);
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, 5);
-        // 현재 < 유통기한 < 현재 + 5일
+        cal.add(Calendar.DATE, -1);
+
+        Calendar cal1 = Calendar.getInstance();
+        cal.add(Calendar.DATE, 6);
+        // 오늘 -1 < 유통기한 < 오늘 +6일 (오늘~오늘+5)
         orderItemList.stream()
-                .filter(i -> i.getSku().getExpiredAt().after(new Date())
-                        && i.getSku().getExpiredAt().before((cal.getTime())))
+                .filter(i -> i.getSku().getExpiredAt().after(cal.getTime())
+                        && i.getSku().getExpiredAt().before(cal1.getTime()))
                 .collect(Collectors.toList());
 
+        orderItemList.sort(Comparator.comparing(o -> o.getSku().getExpiredAt()));
         return convertToNotificationItemDtoList(orderItemList);
     }
 
     private List<NotificationItemDto> convertToNotificationItemDtoList(List<OrderItem> orderItemList) {
         List<NotificationItemDto> notificationItemDtoList = Lists.newArrayList();
-        for (OrderItem orderItem : orderItemList){
+        for (OrderItem orderItem : orderItemList) {
             notificationItemDtoList.add(NotificationItemDto.builder()
+                    .orderItemId(orderItem.getId())
                     .userId(orderItem.getUser().getUserId())
                     .token(orderItem.getUser().getToken())
                     .skuName(orderItem.getSku().getName())
                     .orderedAt(df.format(orderItem.getOrder().getCreatedAt()))
                     .expiredAt(df.format(orderItem.getSku().getExpiredAt()))
+                    .d_day(convertToDDay(orderItem.getSku().getExpiredAt()))
                     .build());
         }
         return notificationItemDtoList;
+    }
+
+    private String convertToDDay(Date date) {
+        Calendar today = Calendar.getInstance();
+        Calendar d_day = Calendar.getInstance();
+
+        d_day.setTime(date);
+
+        long l_dday = d_day.getTimeInMillis() / (24 * 60 * 60 * 1000);
+        long l_today = today.getTimeInMillis() / (24 * 60 * 60 * 1000);
+
+        long dday = l_today - l_dday;
+
+        if (dday == 0) {
+            return "D-DAY";
+        } else if (dday > 0) {
+            return "";
+        } else {
+            return "D" + dday;
+        }
     }
 }

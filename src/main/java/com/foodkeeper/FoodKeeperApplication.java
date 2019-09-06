@@ -73,8 +73,8 @@ public class FoodKeeperApplication implements CommandLineRunner {
         Calendar cal2 = Calendar.getInstance();
         cal2.add(Calendar.DATE, 2);
         Sku sku2 = Sku.builder()
-                .name("요구르트2")
-                .barcode("801056836012")
+                .name("페레로로쉐")
+                .barcode("80050278")
                 .price(2000)
                 .expiredAt(cal2.getTime())
                 .imageUrl("https://eventusstorage.blob.core.windows.net/evs/Image/nhhackathon/9423/ProjectInfo/7ec0e6f9efdb482985db1b0135538b00.jpg")
@@ -135,6 +135,40 @@ public class FoodKeeperApplication implements CommandLineRunner {
                 .imageUrl("https://eventusstorage.blob.core.windows.net/evs/Image/nhhackathon/9423/ProjectInfo/7ec0e6f9efdb482985db1b0135538b00.jpg")
                 .build();
         skuList.add(sku7);
+
+        Calendar cal8 = Calendar.getInstance();
+        cal8.add(Calendar.DATE, 0);
+        Sku sku8 = Sku.builder()
+                .name("우유4")
+                .barcode("801056836018")
+                .price(1900)
+                .expiredAt(cal8.getTime())
+                .imageUrl("https://eventusstorage.blob.core.windows.net/evs/Image/nhhackathon/9423/ProjectInfo/7ec0e6f9efdb482985db1b0135538b00.jpg")
+                .build();
+        skuList.add(sku8);
+
+        Calendar cal9 = Calendar.getInstance();
+        cal9.add(Calendar.DATE, 30);
+        Sku sku9 = Sku.builder()
+                .name("유통기한 +30")
+                .barcode("801056836019")
+                .price(1900)
+                .expiredAt(cal9.getTime())
+                .imageUrl("https://eventusstorage.blob.core.windows.net/evs/Image/nhhackathon/9423/ProjectInfo/7ec0e6f9efdb482985db1b0135538b00.jpg")
+                .build();
+        skuList.add(sku9);
+
+        Calendar cal10= Calendar.getInstance();
+        cal10.add(Calendar.DATE, -2);
+        Sku sku10 = Sku.builder()
+                .name("유통기한 지난 상품")
+                .barcode("801056836020")
+                .price(1900)
+                .expiredAt(cal10.getTime())
+                .imageUrl("https://eventusstorage.blob.core.windows.net/evs/Image/nhhackathon/9423/ProjectInfo/7ec0e6f9efdb482985db1b0135538b00.jpg")
+                .build();
+        skuList.add(sku10);
+
 
         return skuList;
     }
