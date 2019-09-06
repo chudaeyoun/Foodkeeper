@@ -24,19 +24,19 @@ public class UserController {
     private UserBiz userBiz;
 
     @GetMapping("/login")
-    public ResponseEntity loginUser(@RequestParam("userId") String userId) {
-        logger.info("param {userId} =>" + userId);
+    public ResponseEntity loginUser(@RequestParam("custNo") String custNo) {
+        logger.info("param {custNo} =>" + custNo);
 
-        if (Strings.isNullOrEmpty(userId)) {
-            String message = "파라미터 확인을 해주세요. param {userId} => " + userId;
+        if (Strings.isNullOrEmpty(custNo)) {
+            String message = "파라미터 확인을 해주세요. param {custNo} => " + custNo;
             logger.error(message);
             return new ResponseEntity(new CommonResponse("ERROR", message), HttpStatus.BAD_REQUEST);
         }
 
         try {
-            User user = userBiz.getUserByUserId(userId);
+            User user = userBiz.getUserByCustNo(custNo);
             if (user == null) {
-                String message = "userId와 일치하는 User가 없습니다";
+                String message = "custNo와 일치하는 User가 없습니다";
                 logger.error(message);
                 return new ResponseEntity(new CommonResponse("ERROR", message), HttpStatus.BAD_REQUEST);
             }

@@ -43,17 +43,34 @@ public class FoodKeeperApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        userRepository.save(getUser());
+        userRepository.saveAll(getUserList());
         skuRepository.saveAll(getSkuList());
 //        orderItemESRepository.save(getOrderItemESDto());
     }
 
-    private User getUser() {
+    private List<User> getUserList() {
+        List<User> userList = Lists.newArrayList();
         User user = new User();
         user.setUserId("admin");
+        user.setCustNo("admin");
         user.setPassword(getRandomHexString(20));
         user.setToken(getRandomHexString(50));
-        return user;
+        userList.add(user);
+
+        User user2 = new User();
+        user2.setUserId("lth");
+        user2.setCustNo("01050180048");
+        user2.setPassword(getRandomHexString(20));
+        user2.setToken(getRandomHexString(50));
+        userList.add(user2);
+
+        User user3 = new User();
+        user3.setUserId("ajh");
+        user3.setPassword(getRandomHexString(20));
+        user3.setCustNo("01076715951");
+        user3.setToken(getRandomHexString(50));
+        userList.add(user3);
+        return userList;
     }
 
     private List<Sku> getSkuList() {
