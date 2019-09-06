@@ -10,4 +10,6 @@ public class FcmDto {
     private String title;
     //body 내용
     private String body;
+    //성공 여부
+    private boolean success;
 }

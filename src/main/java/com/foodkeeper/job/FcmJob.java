@@ -52,7 +52,7 @@ public class FcmJob {
                     List<NotificationItemDto> notificationItemDtoList = orderItemBiz.getNotificationItemList();
                     HashMap<String, FcmDto> fcmDtoMap = Maps.newHashMap();
 
-                    //푸시 정보 가공
+                    //정보 가공, 푸시, 푸시 중복 기록
                     if(notificationItemDtoList.size() > 0) {
                         FcmDto fcmDto = new FcmDto();
                         fcmDto.setToken(notificationItemDtoList.get(0).getToken());
@@ -62,22 +62,17 @@ public class FcmJob {
                         logger.info("=========================");
                         for(NotificationItemDto notificationItemDto : notificationItemDtoList) {
                             logger.info("notificationItemDto = " + notificationItemDto);
+                            //푸시
                             if(!fcmDtoMap.containsKey(fcmDto.getToken())) {
                                 fcmDtoMap.put(fcmDto.getToken(), fcmDto);
-                                logger.info("fcm push info = " + fcmDto);
+                                pcmBiz.send(fcmDtoMap.get(fcmDto.getToken()));
+                            }
+                            //푸시 중복 기록
+                            if(fcmDto.getToken() == notificationItemDto.getToken() && fcmDto.isSuccess()) {
+                                orderItemBiz.changeNotificationById(notificationItemDto.getOrderItemId());
                             }
                         }
                     }
-
-                    //푸시
-                    for(String token : fcmDtoMap.keySet()) {
-                        pcmBiz.send(fcmDtoMap.get(token));
-
-                        //푸시 중복 기록
-                        orderItemBiz.changeNotificationById(Long orderItemId);
-                    }
-
-
 
                     return RepeatStatus.FINISHED;
                 })

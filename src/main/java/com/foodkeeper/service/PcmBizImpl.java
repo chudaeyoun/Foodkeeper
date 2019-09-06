@@ -63,6 +63,9 @@ public class PcmBizImpl implements PcmBiz {
 
         try {
             logger.info("firebaseResponse info : " + pushNotification.get());
+            if(!pushNotification.get().contains("fail")) {
+                fcmDto.setSuccess(true);
+            }
         } catch (Exception e) {
             logger.error("CompletableFuture 가져오는 중 에러가 발생되었습니다. err = " + e);
         }
