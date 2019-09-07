@@ -29,7 +29,7 @@ public class OrderItemController {
 
     @CrossOrigin(origins = "*")
     @GetMapping("/lists")
-    public ResponseEntity getOrderItemList(@RequestParam("custNo") String custNo) {
+    public ResponseEntity getOrderItemList(@RequestParam("custNo") String custNo, @RequestParam("sort") boolean sort) {
         logger.info("param {custNo} =>" + custNo);
 
         User user = userBiz.getUserByCustNo(custNo);
@@ -40,7 +40,7 @@ public class OrderItemController {
         }
 
         try {
-            HashMap<String, List<OrderItemDto>> orderItemMap = orderItemBiz.getOrderItemMapByUserId(user.getId());
+            HashMap<String, List<OrderItemDto>> orderItemMap = orderItemBiz.getOrderItemMapByUserId(user.getId(), sort);
             return new ResponseEntity(new CommonResponse("SUCCESS", orderItemMap), HttpStatus.OK);
         } catch (Exception e) {
             logger.error(e.getMessage());

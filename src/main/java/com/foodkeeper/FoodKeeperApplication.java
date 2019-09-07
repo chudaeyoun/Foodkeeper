@@ -98,16 +98,16 @@ public class FoodKeeperApplication implements CommandLineRunner {
                 .build();
         skuList.add(sku);
 
-        Calendar cal2 = Calendar.getInstance();
-        cal2.add(Calendar.DATE, 2);
-        Sku sku2 = Sku.builder()
-                .name("페레로로쉐")
-                .barcode("80050278")
-                .price(2000)
-                .expiredAt(cal2.getTime())
+        Calendar cal5 = Calendar.getInstance();
+        cal5.add(Calendar.DATE, 1000);
+        Sku sku5 = Sku.builder()
+                .name("잔치집식혜")
+                .barcode("8801056063245")
+                .price(4500)
+                .expiredAt(cal5.getTime())
                 .imageUrl("https://eventusstorage.blob.core.windows.net/evs/Image/nhhackathon/9423/ProjectInfo/7ec0e6f9efdb482985db1b0135538b00.jpg")
                 .build();
-        skuList.add(sku2);
+        skuList.add(sku5);
 
         Calendar cal3 = Calendar.getInstance();
         cal3.add(Calendar.DATE, 10);
@@ -120,6 +120,17 @@ public class FoodKeeperApplication implements CommandLineRunner {
                 .build();
         skuList.add(sku3);
 
+        Calendar cal2 = Calendar.getInstance();
+        cal2.add(Calendar.DATE, 2);
+        Sku sku2 = Sku.builder()
+                .name("페레로로쉐")
+                .barcode("80050278")
+                .price(2000)
+                .expiredAt(cal2.getTime())
+                .imageUrl("https://eventusstorage.blob.core.windows.net/evs/Image/nhhackathon/9423/ProjectInfo/7ec0e6f9efdb482985db1b0135538b00.jpg")
+                .build();
+        skuList.add(sku2);
+
         Calendar cal4 = Calendar.getInstance();
         cal4.add(Calendar.DATE, 365);
         Sku sku4 = Sku.builder()
@@ -130,17 +141,6 @@ public class FoodKeeperApplication implements CommandLineRunner {
                 .imageUrl("https://eventusstorage.blob.core.windows.net/evs/Image/nhhackathon/9423/ProjectInfo/7ec0e6f9efdb482985db1b0135538b00.jpg")
                 .build();
         skuList.add(sku4);
-
-        Calendar cal5 = Calendar.getInstance();
-        cal5.add(Calendar.DATE, 1000);
-        Sku sku5 = Sku.builder()
-                .name("잔치집식혜")
-                .barcode("8801056063245")
-                .price(4500)
-                .expiredAt(cal5.getTime())
-                .imageUrl("https://eventusstorage.blob.core.windows.net/evs/Image/nhhackathon/9423/ProjectInfo/7ec0e6f9efdb482985db1b0135538b00.jpg")
-                .build();
-        skuList.add(sku5);
 
         Calendar cal6 = Calendar.getInstance();
         cal6.add(Calendar.DATE, -2);

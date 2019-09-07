@@ -24,25 +24,31 @@ public class OrderItemBizImpl implements OrderItemBiz {
     private DateFormat df = new SimpleDateFormat("yyyy.MM.dd");
 
     @Override
-    public HashMap<String, List<OrderItemDto>> getOrderItemMapByUserId(Long userId) {
-        List<OrderItem> orderItemList = orderItemRepository.findByUse(true);
-        orderItemList.sort(Comparator.comparing(o -> o.getSku().getExpiredAt()));
+    public HashMap<String, List<OrderItemDto>> getOrderItemMapByUserId(Long userId, boolean sort) {
+        List<OrderItem> orderItemList = orderItemRepository.findByUserIdAndUse(userId,true);
+        List<OrderItem> newOrderItemList;
+        if (sort) {
+            orderItemList.sort(Comparator.comparing(o -> o.getSku().getExpiredAt()));
 
-        // 오늘보다 이전의 주문은 리스트 뒤쪽으로 이동
-        List<OrderItem> beforeList = orderItemList.stream()
-                .filter(i -> i.getSku().getExpiredAt().before(new Date())
-                        && !df.format(i.getSku().getExpiredAt()).equals(df.format(new Date())))
-                .collect(Collectors.toList());
+            // 오늘보다 이전의 주문은 리스트 뒤쪽으로 이동
+            List<OrderItem> beforeList = orderItemList.stream()
+                    .filter(i -> i.getSku().getExpiredAt().before(new Date())
+                            && !df.format(i.getSku().getExpiredAt()).equals(df.format(new Date())))
+                    .collect(Collectors.toList());
 
-        // 오늘 이후의 주문은 앞쪽
-        List<OrderItem> afterList = orderItemList.stream()
-                .filter(i -> i.getSku().getExpiredAt().after(new Date())
-                        || df.format(i.getSku().getExpiredAt()).equals(df.format(new Date())))
-                .collect(Collectors.toList());
+            // 오늘 이후의 주문은 앞쪽
+            List<OrderItem> afterList = orderItemList.stream()
+                    .filter(i -> i.getSku().getExpiredAt().after(new Date())
+                            || df.format(i.getSku().getExpiredAt()).equals(df.format(new Date())))
+                    .collect(Collectors.toList());
 
-        List<OrderItem> newOrderItemList = Stream.of(afterList, beforeList)
-                .flatMap(x -> x.stream())
-                .collect(Collectors.toList());
+            newOrderItemList = Stream.of(afterList, beforeList)
+                    .flatMap(x -> x.stream())
+                    .collect(Collectors.toList());
+        } else {
+            orderItemList.sort(Comparator.comparing(o -> o.getCreatedAt()));
+            newOrderItemList = orderItemList;
+        }
 
         List<OrderItemDto> orderItemDtoList = Lists.newArrayList();
         for (OrderItem item : newOrderItemList) {
@@ -103,7 +109,7 @@ public class OrderItemBizImpl implements OrderItemBiz {
     @Override
     public void enableNotification() {
         List<OrderItem> orderItemList = orderItemRepository.findByUseAndNoti(true, false);
-        for (OrderItem orderItem : orderItemList){
+        for (OrderItem orderItem : orderItemList) {
             orderItem.setNoti(true);
             orderItemRepository.save(orderItem);
         }

@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface OrderItemBiz {
-    HashMap<String, List<OrderItemDto>> getOrderItemMapByUserId(Long userId);
+    HashMap<String, List<OrderItemDto>> getOrderItemMapByUserId(Long userId, boolean sort);
     void deleteOrderItemById(Long orderItemId);
     void disuseNotificationById(Long orderItemId);
     List<NotificationItemDto> getNotificationItemList();

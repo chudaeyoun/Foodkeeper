@@ -11,5 +11,5 @@ import java.util.List;
 public interface OrderItemRepository extends CrudRepository<OrderItem, Long> {
     List<OrderItem> findByUserId(Long userId);
     List<OrderItem> findByUseAndNoti(Boolean use, Boolean noti);
-    List<OrderItem> findByUse(Boolean use);
+    List<OrderItem> findByUserIdAndUse(Long userId, Boolean use);
 }
