@@ -11,4 +11,5 @@ public interface OrderItemBiz {
     void deleteOrderItemById(Long orderItemId);
     void disuseNotificationById(Long orderItemId);
     List<NotificationItemDto> getNotificationItemList();
+    void enableNotification();
 }

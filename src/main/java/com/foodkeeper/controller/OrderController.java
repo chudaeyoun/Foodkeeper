@@ -6,6 +6,7 @@ import com.foodkeeper.repository.OrderRepository;
 import com.foodkeeper.repository.SkuRepository;
 import com.foodkeeper.repository.UserRepository;
 import com.foodkeeper.service.OrderBiz;
+import com.foodkeeper.service.OrderItemBiz;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ public class OrderController {
 
     @Autowired
     private SkuRepository skuRepository;
+
+    @Autowired
+    private OrderItemBiz orderItemBiz;
 
     @GetMapping("/lists")
     public ResponseEntity getOrderList(@RequestParam("userId") Long userId) {
@@ -70,6 +74,9 @@ public class OrderController {
             logger.error(message);
             return new ResponseEntity(new CommonResponse("ERROR", message), HttpStatus.BAD_REQUEST);
         }
+
+        // 하루 지났을 경우, 다시 알려줘야 함
+        orderItemBiz.enableNotification();
 
         int totalPrice = 0;
         try {

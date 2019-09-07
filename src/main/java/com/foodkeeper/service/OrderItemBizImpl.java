@@ -31,13 +31,13 @@ public class OrderItemBizImpl implements OrderItemBiz {
         // 오늘보다 이전의 주문은 리스트 뒤쪽으로 이동
         List<OrderItem> beforeList = orderItemList.stream()
                 .filter(i -> i.getSku().getExpiredAt().before(new Date())
-                && !df.format(i.getSku().getExpiredAt()).equals(df.format(new Date())))
+                        && !df.format(i.getSku().getExpiredAt()).equals(df.format(new Date())))
                 .collect(Collectors.toList());
 
         // 오늘 이후의 주문은 앞쪽
         List<OrderItem> afterList = orderItemList.stream()
                 .filter(i -> i.getSku().getExpiredAt().after(new Date())
-                || df.format(i.getSku().getExpiredAt()).equals(df.format(new Date())))
+                        || df.format(i.getSku().getExpiredAt()).equals(df.format(new Date())))
                 .collect(Collectors.toList());
 
         List<OrderItem> newOrderItemList = Stream.of(afterList, beforeList)
@@ -98,6 +98,15 @@ public class OrderItemBizImpl implements OrderItemBiz {
 
         filteredOrderItemList.sort(Comparator.comparing(o -> o.getSku().getExpiredAt()));
         return convertToNotificationItemDtoList(filteredOrderItemList);
+    }
+
+    @Override
+    public void enableNotification() {
+        List<OrderItem> orderItemList = orderItemRepository.findByUseAndNoti(true, false);
+        for (OrderItem orderItem : orderItemList){
+            orderItem.setNoti(true);
+            orderItemRepository.save(orderItem);
+        }
     }
 
     private List<NotificationItemDto> convertToNotificationItemDtoList(List<OrderItem> orderItemList) {

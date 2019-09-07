@@ -110,10 +110,10 @@ public class FoodKeeperApplication implements CommandLineRunner {
         skuList.add(sku2);
 
         Calendar cal3 = Calendar.getInstance();
-        cal3.add(Calendar.DATE, 3);
+        cal3.add(Calendar.DATE, 10);
         Sku sku3 = Sku.builder()
-                .name("요구르트3")
-                .barcode("801056836013")
+                .name("꿀홍삼")
+                .barcode("8801382127130")
                 .price(3000)
                 .expiredAt(cal3.getTime())
                 .imageUrl("https://eventusstorage.blob.core.windows.net/evs/Image/nhhackathon/9423/ProjectInfo/7ec0e6f9efdb482985db1b0135538b00.jpg")
@@ -121,10 +121,10 @@ public class FoodKeeperApplication implements CommandLineRunner {
         skuList.add(sku3);
 
         Calendar cal4 = Calendar.getInstance();
-        cal4.add(Calendar.DATE, 4);
+        cal4.add(Calendar.DATE, 365);
         Sku sku4 = Sku.builder()
-                .name("요구르트4")
-                .barcode("801056836014")
+                .name("칠성사이다")
+                .barcode("8801056070892")
                 .price(4000)
                 .expiredAt(cal4.getTime())
                 .imageUrl("https://eventusstorage.blob.core.windows.net/evs/Image/nhhackathon/9423/ProjectInfo/7ec0e6f9efdb482985db1b0135538b00.jpg")
@@ -132,10 +132,10 @@ public class FoodKeeperApplication implements CommandLineRunner {
         skuList.add(sku4);
 
         Calendar cal5 = Calendar.getInstance();
-        cal5.add(Calendar.DATE, 6);
+        cal5.add(Calendar.DATE, 1000);
         Sku sku5 = Sku.builder()
-                .name("우유1")
-                .barcode("801056836015")
+                .name("잔치집식혜")
+                .barcode("8801056063245")
                 .price(4500)
                 .expiredAt(cal5.getTime())
                 .imageUrl("https://eventusstorage.blob.core.windows.net/evs/Image/nhhackathon/9423/ProjectInfo/7ec0e6f9efdb482985db1b0135538b00.jpg")
@@ -143,60 +143,15 @@ public class FoodKeeperApplication implements CommandLineRunner {
         skuList.add(sku5);
 
         Calendar cal6 = Calendar.getInstance();
-        cal6.add(Calendar.DATE, 8);
+        cal6.add(Calendar.DATE, -2);
         Sku sku6 = Sku.builder()
-                .name("우유2")
-                .barcode("801056836016")
+                .name("크런키")
+                .barcode("8801062628476")
                 .price(2700)
                 .expiredAt(cal6.getTime())
                 .imageUrl("https://eventusstorage.blob.core.windows.net/evs/Image/nhhackathon/9423/ProjectInfo/7ec0e6f9efdb482985db1b0135538b00.jpg")
                 .build();
         skuList.add(sku6);
-
-        Calendar cal7 = Calendar.getInstance();
-        cal7.add(Calendar.DATE, 9);
-        Sku sku7 = Sku.builder()
-                .name("우유3")
-                .barcode("801056836017")
-                .price(1700)
-                .expiredAt(cal7.getTime())
-                .imageUrl("https://eventusstorage.blob.core.windows.net/evs/Image/nhhackathon/9423/ProjectInfo/7ec0e6f9efdb482985db1b0135538b00.jpg")
-                .build();
-        skuList.add(sku7);
-
-        Calendar cal8 = Calendar.getInstance();
-        cal8.add(Calendar.DATE, 0);
-        Sku sku8 = Sku.builder()
-                .name("우유4")
-                .barcode("801056836018")
-                .price(1900)
-                .expiredAt(cal8.getTime())
-                .imageUrl("https://eventusstorage.blob.core.windows.net/evs/Image/nhhackathon/9423/ProjectInfo/7ec0e6f9efdb482985db1b0135538b00.jpg")
-                .build();
-        skuList.add(sku8);
-
-        Calendar cal9 = Calendar.getInstance();
-        cal9.add(Calendar.DATE, 30);
-        Sku sku9 = Sku.builder()
-                .name("유통기한 +30")
-                .barcode("801056836019")
-                .price(1900)
-                .expiredAt(cal9.getTime())
-                .imageUrl("https://eventusstorage.blob.core.windows.net/evs/Image/nhhackathon/9423/ProjectInfo/7ec0e6f9efdb482985db1b0135538b00.jpg")
-                .build();
-        skuList.add(sku9);
-
-        Calendar cal10= Calendar.getInstance();
-        cal10.add(Calendar.DATE, -2);
-        Sku sku10 = Sku.builder()
-                .name("유통기한 지난 상품")
-                .barcode("801056836020")
-                .price(1900)
-                .expiredAt(cal10.getTime())
-                .imageUrl("https://eventusstorage.blob.core.windows.net/evs/Image/nhhackathon/9423/ProjectInfo/7ec0e6f9efdb482985db1b0135538b00.jpg")
-                .build();
-        skuList.add(sku10);
-
 
         return skuList;
     }
