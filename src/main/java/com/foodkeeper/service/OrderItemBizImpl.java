@@ -89,14 +89,15 @@ public class OrderItemBizImpl implements OrderItemBiz {
 
         Calendar cal1 = Calendar.getInstance();
         cal1.add(Calendar.DATE, 6);
+
         // 오늘 -1 < 유통기한 < 오늘 +6일 (오늘~오늘+5)
-        orderItemList = orderItemList.stream()
+        List<OrderItem> filteredOrderItemList = orderItemList.stream()
                 .filter(i -> i.getSku().getExpiredAt().after(cal.getTime())
                         && i.getSku().getExpiredAt().before(cal1.getTime()))
                 .collect(Collectors.toList());
 
-        orderItemList.sort(Comparator.comparing(o -> o.getSku().getExpiredAt()));
-        return convertToNotificationItemDtoList(orderItemList);
+        filteredOrderItemList.sort(Comparator.comparing(o -> o.getSku().getExpiredAt()));
+        return convertToNotificationItemDtoList(filteredOrderItemList);
     }
 
     private List<NotificationItemDto> convertToNotificationItemDtoList(List<OrderItem> orderItemList) {
