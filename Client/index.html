@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>NH::FoodKeeper Team</title>
+
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/sb-admin-2.css" rel="stylesheet">
+
+  <!-- Custom styles for this page -->
+  <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top" style="background-color:white;">
+<div id="app">
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+      <!-- Main Content -->
+      <div id="content">
+        <div class="container-fluid bg-white">
+		
+		
+<div class="row" style="padding:20px;">	
+			
+			
+	<div class="col-xl-9 col-md-9 mb-9">
+		<div class="row">
+			<div class="col-xl-3 col-md-3 mb-3">
+				<img src="img/nh_logo.svg"/>
+			</div>
+			<div class="col-xl-9 col-md-9 mb-9">
+				<input v-model="barcode" v-on:keydown.13="doAdd" class="form-control input-lg" id="barcode" type="text" placeholder="상품 바코드 입력" style="height:48px;">
+			</div>
+			
+		</div>
+		
+</div>
+<div class="col-xl-3 col-md-3 mb-3">
+	<button type="button" class="btn btn-primary btn-lg" style="width:49%;" onclick="calcul_total_price()">조회</button>
+	<button type="button" v-on:click="doAdd" class="btn btn-info btn-lg" style="background-color:#1CC88A; width:49%;" id="food_add">등록</button>
+</div>
+
+</div>		
+
+
+
+
+<div class="row" style="padding:20px;">
+<div class="col-xl-9 col-md-9 mb-9">
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+
+            <div class="card-body" style="height:610px; max-height:610px;OVERFLOW-Y:auto;overflow:auto;">
+              
+
+              <!--div class="table-responsive"   table table-bordered-->
+                <table class="table table-bordered text-center" id="food_table" width="100%" cellspacing="0" style="">
+                  <thead>
+                    <tr style="background-color:#F8F8F8;border:0px solid #F8F8F8;">
+                      <th style="border:0px solid #F8F8F8;">순번</th>
+                      <th style="border:0px solid #F8F8F8;">상품명</th>
+                      <th style="border:0px solid #F8F8F8;">금액</th>
+                      <th style="border:0px solid #F8F8F8;">바코드 번호</th>
+                      <th style="border:0px solid #F8F8F8;">유통기한</th>
+					  <th style="border:0px solid #F8F8F8;">갯수</th>
+					  <th style="border:0px solid #F8F8F8;">삭제</th>					  
+                    </tr>
+                  </thead>
+                  <!--tfoot>
+                    <tr>
+                      <th>순번</th>
+                      <th>상품명</th>
+                      <th>금액</th>
+                      <th>구매날짜</th>
+                      <th>바코드 번호</th>
+                      <th>유통기한</th>
+					  <th>삭제</th>
+                    </tr>
+                  </tfoot-->
+                  <tbody>
+				  
+    <tr v-for="(item, index) in list"
+      v-bind:key="item.idx">
+      <td>{{ item.idx }}</td><td>{{ item.name }}</td><td class="price"> {{ item.price }}</td><td>{{item.barcode}}</td><td>{{item.expiredAt}}</td>
+	  <td>{{ item.num }}</td><td><button v-on:click="doRemove(index)" type="button" class="btn btn-decimal btn-sm" style="border-color:#BDBDBD;"><i class="fas fa-trash"></i></button></td>
+    </tr>
+				
+					
+                  </tbody>
+                </table>
+              <!--/div-->
+			              </div>
+          </div>
+
+</div>
+<div class="col-xl-3 col-md-3 mb-3">
+	<div id="buy_interface" style="position:fixed;bottom:0;width:100%;">
+	  
+		<label for="total_price">합계금액</label>
+		<input v-model="total_price" type="text" class="form-control" id="total_price" placeholder="" value="900" style="width:22%" />
+		<label for="cust_seq">고객번호</label>
+		<input type="text" class="form-control" id="cust_seq" placeholder="고객번호 입력" value="01050180048" style="width:22%"/>
+		<br/>
+		<button type="button" class="btn btn-primary btn-lg buy_interface" style="background-color:#828282;width:11%">등록</button>
+		<button type="button" class="btn btn-info btn-lg buy_interface" style="background-color:#BDBDBD;width:11%;">조회</button>
+		<br/>
+		<br/>
+		<button type="button" class="btn btn-danger btn-lg buy_interface" style="width:22%;" onclick="sendOrder();">결제하기</button>
+		<br/>
+		<br/>
+		
+	  
+	</div>
+</div>
+
+</div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span><a onclick="devMode();">FoodKeeper Team</a></span>
+			<br>
+			<input type="text" v-model="HOST" value="" id="devmode" style="display:none"/>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  
+  
+  <div class="modal fade" id="notiModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">알림</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">정상 결제되었습니다.</div>
+        <div class="modal-footer">
+          <button class="btn btn-info" type="button" data-dismiss="modal" onclick="popup(0);">OK</button>
+          <!--a class="btn btn-primary" href="#">Logout</a-->
+        </div>
+      </div>
+    </div>
+  </div>    
+  
+  <div class="modal fade" id="notiModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">알림</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">유통기한이 지난 제품입니다. 그래도 추가하시겠습니까?</div>
+        <div class="modal-footer">
+          <button class="btn btn-info" type="button" data-dismiss="modal" onclick="popup2(0);addExpiredItem();">추가</button>
+		  <button class="btn btn-primary" type="button" data-dismiss="modal" onclick="popup2(0);">취소</button>
+          <!--a class="btn btn-primary" href="#">Logout</a-->
+        </div>
+      </div>
+    </div>
+  </div>      
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+
+  <!-- Page level plugins -->
+  <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="js/demo/datatables-demo.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+<script>
+
+	
+var vm = new Vue({
+  el: '#app',
+  data: {
+    HOST: 'http://forlab.dothome.co.kr/nh/api',
+    //HOST: 'http://192.168.0.27:8080',
+    barcode: '',
+	total_price: '0',
+    list: [
+	/*
+      { idx: 1, name: '순창 고추장', price: 200, createdTime: "2019.09.01", expiredAt: "2020.10.10", barcode: 10000, id:7, num:2},
+      { idx: 2, name: '콩나물', price: 2000000, createdTime: "2019.09.01", expiredAt: "2020.10.10", barcode: 10001, id:7, num:2 },
+      { idx: 3, name: '허니 콤보', price: 40000, createdTime: "2019.09.01", expiredAt: "2020.10.10", barcode: 10002, id:7, num:2 },      
+	  { idx: 4, name: '햇반', price: 3420, createdTime: "2019.09.01", expiredAt: "2020.10.10", barcode: 10003, id:7, num:2 },
+	  { idx: 5, name: '순창 고추장', price: 5000, createdTime: "2019.09.01", expiredAt: "2020.10.10", barcode: 10004, id:7, num:2 },
+	  { idx: 6, name: '코카콜라', price: 1000, createdTime: "2019.09.01", expiredAt: "2020.10.10", barcode: 10005, id:7, num:8 }
+    */
+	]
+  },
+  methods: {
+    // 추가 버튼을 클릭할 때의 핸들러
+    doAdd: function () {
+		checkGoods(this.barcode);
+		/*
+      // 리스트 내부에서 가장 큰 ID 추출하기
+      var max = this.list.reduce(function (a, b) {
+        return a > b.id ? a : b.id
+      }, 0)
+      // 새로운 상품을 리스트에 추가하기
+      this.list.push({
+        id: max + 1, // 현재 최대 ID에 1을 더해서 유니크 ID로 사용하기
+		name : "추가상품 입니다 " + this.barcode,
+		price : 1000,
+		buy_date : "2019.20.10",
+		due_date : "2044.22.22",
+        barcode: this.barcode, // 현재 입력 양식의 값
+      })
+	  this.barcode='';
+	  //calcul_total_price();
+	  */
+    },
+    doAddItem: function (id_tmp, name_tmp, price_tmp, barcode_tmp, expiredAt_tmp) {
+      // 리스트 내부에서 가장 큰 ID 추출하기
+	  
+      var max = this.list.reduce(function (a, b) {
+        return a > b.idx ? a : b.idx
+      }, 0)
+      // 새로운 상품을 리스트에 추가하기
+	  for(var i =0; i < this.list.length; i++){
+		if(id_tmp == this.list[i].id){
+			this.list[i].num += 1;
+			this.barcode='';
+			return;
+		}
+	  }
+	  
+	  //if(isTodayOver(expiredAt_tmp))
+		//expiredAt_tmp = "<b>" + expiredAt_tmp + "</b>";
+      this.list.push({
+        idx: max + 1, // 현재 최대 ID에 1을 더해서 유니크 ID로 사용하기
+		name : name_tmp,
+		price : price_tmp,
+		createdTime : '',
+		expiredAt : expiredAt_tmp,
+        barcode: barcode_tmp, // 현재 입력 양식의 값
+		id : id_tmp,
+		num : 1
+      })
+	  this.barcode='';
+	  //calcul_total_price();
+    },	
+	doRemove: function (index) {
+      // 전달받은 인덱스 위치에서 한 개만큼 제거하기
+      this.list.splice(index, 1)
+	  
+    }
+  },
+  updated:function () {
+  calcul_total_price();
+  console.log("d");
+  	var focusEle = document.activeElement;
+	if(document.getElementById('barcode') == focusEle){
+		console.log("dddd");
+	}
+	/*
+	$(document).keydown(function(objEvent) { 
+	   console.log("cc");
+    	if(document.getElementById('barcode') == focusEle){
+            if (objEvent.keyCode == 13) {
+            	console.log($("#barcode").val());
+            	return;
+            } 
+    	}
+    })*/  
+	
+	
+
+  }
+})
+
+function calcul_total_price(){
+	var res = 0;
+	$('#food_table').find('.price').each(function(i, e){
+		//console.log($(this).text());
+		res += Number($(this).text());
+	});
+	$("#total_price").val(res);
+	//return res;
+}
+
+function devMode(){
+	if($("#devmode").css("display") == "none")
+		$("#devmode").css("display","block");
+	else
+		$("#devmode").css("display","none");
+}
+
+function checkGoods(target_barcode){
+
+	$.ajax({
+            url: $("#devmode").val() + "/sku",
+            //url: $("#devmode").val() + "/sku/" +  $("#barcode").val(),
+            type: "get",
+            data: {
+			/*
+                "email": $("#user_email").val(),
+                "rfid": $("#rfcard_id").val(),
+                "name": $("#user_name").val(),
+                "company": $("#company_name").val(),
+                "leave": "false"
+              */  
+                //"user_pw" : document.getElementById("exampleInputPassword1").value
+            },
+            dataType: "json",
+            error: function(xhr, ajaxOptions, thrownError){
+				alert("유효한 바코드가 아닙니다.");
+				$("#barcode").val("");
+            },
+            success: function(data){
+				if(data.result=="ERROR"){
+					alert("유효한 바코드가 아닙니다.");
+					return;
+				}
+				//doAddItem(id, createdTime, updatedTime, name, price, barcode, expiredAt);
+				//Vue.doAddItem(data.id, data.createdTime, data.updatedTime, data.name, data.price, data.barcode, data.expiredAt);
+				if(isTodayOver(data.data.expiredAt)){
+					popup2(1);
+					exptmp_id = data.data.id;
+					exptmp_name = data.data.name;
+					exptmp_price = data.data.price;
+					exptmp_barcode = data.data.barcode;
+					exptmp_expiredAt = data.data.expiredAt;
+				}
+				else
+					vm.doAddItem(data.data.id, data.data.name, data.data.price, data.data.barcode, data.data.expiredAt);
+            }
+        });
+}
+
+
+
+
+function sendOrder(){
+      var cust_seq = $("#cust_seq").val();
+	  if(cust_seq == ''){
+		alert("고객번호를 입력해주세요");
+		return;
+	  }
+
+	  var jsonmsg = '{"custNo":"' + cust_seq + '","orderMap" : {';
+	  for(var i =0; i < vm.list.length; i++){
+		jsonmsg += '"' + vm.list[i].id + '" : ' + vm.list[i].num + ',';
+	  }
+	  jsonmsg = jsonmsg.substr(0, jsonmsg.length -1);	//마지막 콤마 제거
+	  jsonmsg += "}}";
+	  //alert(jsonmsg);
+
+	$.ajax({
+            url: $("#devmode").val() + "/order/save",
+            type: "post",
+            data: jsonmsg,
+            dataType: "json",
+			contentType: "application/json",
+            error: function(xhr, ajaxOptions, thrownError){
+				//alert(xhr);
+				//alert(ajaxOptions);
+				//alert(thrownError);
+				if($("#barcode").val() == "")
+					alert("바코드값이 비어 있습니다.");
+				else
+					alert("일치하는 사용자가 없습니다.");
+				vm.list = []; 
+            },
+            success: function(data){
+				if(data.result=="SUCCESS")
+					popup(1);
+					//alert("결제가 완료되었습니다.");
+				vm.list = [];
+            }
+        });
+}
+
+
+	function popup(yn){
+		if(yn == 1){
+			$("#notiModal").css("display","block");
+			$("#notiModal").attr("class","modal");
+		}
+		else{
+			$("#notiModal").css("display","none");
+			$("#notiModal").attr("class","fade");		
+			$("#barcode").focus();
+		}
+	}
+	
+	function popup2(yn){
+		if(yn == 1){
+			$("#notiModal2").css("display","block");
+			$("#notiModal2").attr("class","modal");
+		}
+		else{
+			$("#notiModal2").css("display","none");
+			$("#notiModal2").attr("class","fade");		
+			$("#barcode").val("");
+			
+			$("#barcode").focus();
+			
+		}
+		
+	}	
+	
+	function isTodayOver(target){
+		var target_split = target.split(".");
+		var year = target_split[0];
+		var month = target_split[1];
+		var day = target_split[2];
+		
+		var date2 = new Date();
+		
+		//date2.setFullYear(year, Number(month) – 1, day); // 실제 사용하는 월에서 1을 빼고 셋팅을 해줘야 한다. Date 객체에서는 월의 값으로 0부터 11을 사용한다.
+		date2.setFullYear(year, month-1, day);
+		//date.setDate(date.getDate() + 8); // 이벤트 일로부터 8일 후
+		var today = new Date(); // 오늘은 2014년 9월 4일이므로 2014년 8월 28일로부터 7일까지인 9월 4일까지는 true, 내일이 되면 false로 바뀐다.
+
+		if(today.getTime() < date2.getTime()) {
+			return false;
+		}	
+		return true;
+	}
+	
+	
+	function addExpiredItem(){		
+		vm.doAddItem(exptmp_id, exptmp_name, exptmp_price, exptmp_barcode, exptmp_expiredAt);
+	}
+	
+var exptmp_id;
+var exptmp_name;
+var exptmp_price;
+var exptmp_barcode;
+var exptmp_expiredAt;
+	
+	$("#barcode").focus();
+</script>
+
+</body>
+
+</html>

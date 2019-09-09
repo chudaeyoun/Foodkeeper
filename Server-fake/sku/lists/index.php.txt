@@ -1,0 +1,9 @@
+﻿<?php
+
+echo "[{\"id\" : 1, \"createdTime\" : \"2019-09-01\", \"updatedTime\":\"2019-09-01\", \"name\":\"요구르트\",\"price\": 1000, \"barcode\":\"12345\", \"expiredAt\":\"2019.09.02\"},
+{\"id\" : 2, \"createdTime\" : \"2019-09-01\", \"updatedTime\":\"2019-09-01\", \"name\":\"요구르트2\",\"price\": 2000, \"barcode\":\"12346\", \"expiredAt\":\"2019.09.02\"},
+{\"id\" : 3, \"createdTime\" : \"2019-09-01\", \"updatedTime\":\"2019-09-01\", \"name\":\"요구르트3\",\"price\": 3000, \"barcode\":\"12347\", \"expiredAt\":\"2019.09.02\"},
+{\"id\" : 4, \"createdTime\" : \"2019-09-01\", \"updatedTime\":\"2019-09-01\", \"name\":\"요구르트4\",\"price\": 4000, \"barcode\":\"12348\", \"expiredAt\":\"2019.09.02\"},
+{\"id\" : 5, \"createdTime\" : \"2019-09-01\", \"updatedTime\":\"2019-09-01\", \"name\":\"요구르트5\",\"price\": 5000, \"barcode\":\"12349\", \"expiredAt\":\"2019.09.02\"}]";
+
+?>

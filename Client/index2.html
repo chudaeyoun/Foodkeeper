@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>NH::FoodKeeper Team</title>
+
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/sb-admin-2.css" rel="stylesheet">
+
+  <!-- Custom styles for this page -->
+  <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top" style="background-color:white;">
+<div id="app">
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+      <!-- Main Content -->
+      <div id="content">
+        <div class="container-fluid bg-white">
+		
+		
+<div class="row" style="padding:20px;">	
+			
+			
+	<div class="col-xl-9 col-md-9 mb-9">
+		<div class="row">
+			<div class="col-xl-3 col-md-3 mb-3">
+				<img src="img/nh_logo.svg"/>
+			</div>
+			<div class="col-xl-9 col-md-9 mb-9">
+				<input v-model="barcode" class="form-control input-lg" id="barcode" type="text" placeholder="상품 바코드 입력" style="height:48px;">
+			</div>
+			
+		</div>
+		
+</div>
+<div class="col-xl-3 col-md-3 mb-3">
+	<button type="button" class="btn btn-primary btn-lg" style="width:49%;" onclick="calcul_total_price()">조회</button>
+	<button type="button" v-on:click="doAdd" class="btn btn-info btn-lg" style="background-color:#1CC88A; width:49%;" id="food_add">등록</button>
+</div>
+
+</div>		
+
+
+
+
+<div class="row" style="padding:20px;">
+<div class="col-xl-9 col-md-9 mb-9">
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+
+            <div class="card-body">
+              
+
+              <!--div class="table-responsive"   table table-bordered-->
+                <table class="table table-bordered text-center" id="food_table" width="100%" cellspacing="0" style="">
+                  <thead>
+                    <tr style="background-color:#F8F8F8;border:0px solid #F8F8F8;">
+                      <th style="border:0px solid #F8F8F8;">순번</th>
+                      <th style="border:0px solid #F8F8F8;">상품명</th>
+                      <th style="border:0px solid #F8F8F8;">금액</th>
+                      <th style="border:0px solid #F8F8F8;">구매날짜</th>
+                      <th style="border:0px solid #F8F8F8;">바코드 번호</th>
+                      <th style="border:0px solid #F8F8F8;">유통기한</th>
+					  <th style="border:0px solid #F8F8F8;">삭제</th>					  
+                    </tr>
+                  </thead>
+                  <!--tfoot>
+                    <tr>
+                      <th>순번</th>
+                      <th>상품명</th>
+                      <th>금액</th>
+                      <th>구매날짜</th>
+                      <th>바코드 번호</th>
+                      <th>유통기한</th>
+					  <th>삭제</th>
+                    </tr>
+                  </tfoot-->
+                  <tbody>
+				  
+    <tr v-for="(item, index) in list"
+      v-bind:key="item.id">
+      <td>{{ item.id }}</td><td>{{ item.name }}</td><td class="price"> {{ item.price }}</td><td>{{item.price}}</td><td>{{item.buy_date}}</td><td>{{item.due_date}}</td>
+	  <td><button v-on:click="doRemove(index)" type="button" class="btn btn-decimal btn-sm" style="border-color:#BDBDBD;"><i class="fas fa-trash"></i></button></td>
+    </tr>
+				
+					
+                  </tbody>
+                </table>
+              <!--/div-->
+			              </div>
+          </div>
+
+</div>
+<div class="col-xl-3 col-md-3 mb-3">
+	<div style="position:fixed;bottom:0;width:100%;">
+	  
+		<label for="total_price">합계금액</label>
+		<input v-model="total_price" type="text" class="form-control" id="total_price" placeholder="" value="900" style="width:22%" />
+		<label for="cust_seq">고객번호</label>
+		<input type="text" class="form-control" id="cust_seq" placeholder="고객번호 입력" value="" style="width:22%"/>
+		<br/>
+		<button type="button" class="btn btn-primary btn-lg" style="background-color:#828282;width:11%">등록</button>
+		<button type="button" class="btn btn-info btn-lg" style="background-color:#BDBDBD;width:11%;">조회</button>
+		<br/>
+		<br/>
+		<button type="button" class="btn btn-danger btn-lg" style="width:22%;">결제하기</button>
+		<br/>
+		<br/>
+		
+	  
+	</div>
+</div>
+
+</div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>FoodKeeper Team</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+
+  <!-- Page level plugins -->
+  <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="js/demo/datatables-demo.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    barcode: '',
+	total_price: '0',
+    list: [
+      { id: 1, name: '순창 고추장', price: 200, buy_date: "2019.09.01", due_date: "2020.10.10", barcode: 10000 },
+      { id: 2, name: '콩나물', price: 2000000, buy_date: "2019.09.01", due_date: "2020.10.10", barcode: 10001 },
+      { id: 3, name: '허니 콤보', price: 40000, buy_date: "2019.09.01", due_date: "2020.10.10", barcode: 10002 },      
+	  { id: 4, name: '햇반', price: 3420, buy_date: "2019.09.01", due_date: "2020.10.10", barcode: 10003 },
+	  { id: 5, name: '순창 고추장', price: 5000, buy_date: "2019.09.01", due_date: "2020.10.10", barcode: 10004 },
+	  { id: 6, name: '코카콜라', price: 1000, buy_date: "2019.09.01", due_date: "2020.10.10", barcode: 10005 }
+    ]
+  },
+  methods: {
+    // 추가 버튼을 클릭할 때의 핸들러
+    doAdd: function () {
+      // 리스트 내부에서 가장 큰 ID 추출하기
+      var max = this.list.reduce(function (a, b) {
+        return a > b.id ? a : b.id
+      }, 0)
+      // 새로운 상품을 리스트에 추가하기
+      this.list.push({
+        id: max + 1, // 현재 최대 ID에 1을 더해서 유니크 ID로 사용하기
+		name : "추가상품 입니다 " + this.barcode,
+		price : 1000,
+		buy_date : "2019.20.10",
+		due_date : "2044.22.22",
+        barcode: this.barcode, // 현재 입력 양식의 값
+      })
+	  this.barcode='';
+	  //calcul_total_price();
+    },
+	doRemove: function (index) {
+      // 전달받은 인덱스 위치에서 한 개만큼 제거하기
+      this.list.splice(index, 1)
+	  
+    }
+  },
+  updated:function () {
+  calcul_total_price();
+  }
+})
+
+function calcul_total_price(){
+	var res = 0;
+	$('#food_table').find('.price').each(function(i, e){
+		//console.log($(this).text());
+		res += Number($(this).text());
+	});
+	//alert($("#total_price").val() + ", " + res);
+	$("#total_price").val(res);
+	//return res;
+}
+
+</script>
+
+</body>
+
+</html>

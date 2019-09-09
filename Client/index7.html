@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>NH::FoodKeeper Team</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button>
+
+          <!-- Topbar Search -->
+		  <table style="width:100%;margin-left:-40px;" >
+			<tr style="text-align:center;">
+			<td><img src="img/nh_logo.svg"/></td>
+			</tr>
+		  </table>
+
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <!--div class="d-sm-flex align-items-center justify-content-between mb-4">
+			<b><a style="font-size:16px; color:black;">보유중인 상품목록</a></b> <a style="font-size:14px; color:gray;">4개</a>
+			
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+          </div-->
+
+         
+
+          <!-- Content Row -->
+          <div class="row">
+
+			<div class="col-lg-6 mb-4">
+			  <div class="card shadow mb-4">
+     			<div class="card-body">
+				  <table style="width:100%">
+					<tr style="width:100%">
+					  <td style="width:70%;">
+					  
+					  
+					  
+					  
+					    <b><a style="font-size:16px; color:black;">보유중인 상품목록</a></b> <a id="totalItemNum" style="font-size:14px; color:gray;">로딩중..</a>
+					  </td><td style="width:29%;text-align:left;">
+					    <!--a style="font-size:14px; color:gray;"  class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">유통기한 임박순</a-->
+						  <a  style="font-size:14px; color:gray;" class="nav-link dropdown-toggle" href="#" id="userDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+							유통기한 임박순
+						  </a>
+						  <!-- Dropdown - User Information -->
+						  <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown3">
+							<a class="dropdown-item" href="#" onclick="sort_mode('true');">
+							  유통기한 임박순
+							</a>
+							<a class="dropdown-item" href="#" onclick="sort_mode('false');">
+							  구매 날짜순
+							</a>
+						  </div>
+					  
+					  </td>
+					</tr>
+				  </table>			
+				</div>
+			  </div>
+			</div>
+	
+	
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+						<!-- one card-->
+			<div class="col-lg-6 mb-4">
+
+              <!-- Illustrations -->
+              <div class="card shadow mb-4">
+                <div class="card-body" id="foodCardList">
+				  <!-- ONE GOODS -->
+				  <!--table style="width:100%">
+				    <tr style="">
+					  <td rowspan="2" style="vertical-align:middle; width:30%; height:auto; background-image: url('img/goods1.svg'); background-repeat: no-repeat; background-size:90%;">
+					  </td>
+					  <td colspan="2" style="width:60%;">
+					    <b><a style="font-size:13px; color:#4f4f4f;">하나로마트 양재점</a></b>
+						<br>
+						<b><a style="font-size:16px; color:#222222;">두부</a></b>
+				      </td>
+					  <td style="width:9%;text-align:center;">
+     					  <a href="#" onclick="testajax()"; style="color:gray"><i class="fas fa-trash"></i></a>
+					  </td>
+					</tr>
+				    <tr style="">
+					  <td style="">
+					    <b><a style="font-size:13px; color:#4f4f4f;">구매날짜</a></b><br>
+						<b><a style="font-size:16px; color:#222222;">2019.10.09</a></b>
+				      </td>
+					  <td style="">
+					    <b><a style="font-size:13px; color:#4f4f4f;">유통기한</a></b><br>
+						<b><a style="font-size:16px; color:#fe4533;">2020.10.11</a></b>
+				      </td>
+					  <td style=""></td>
+					</tr>
+				  </table>
+				
+				<br>
+				<hr>
+				<br>
+				
+				  <table style="width:100%">
+				    <tr style="">
+					  <td rowspan="2" style="vertical-align:middle; width:30%; height:auto; background-image: url('img/goods3.svg'); background-repeat: no-repeat; background-size:90%;">
+					  </td>
+					  <td colspan="2" style="width:60%;">
+					    <b><a style="font-size:13px; color:#4f4f4f;">하나로마트 양재점</a></b>
+						<br>
+						<b><a style="font-size:16px; color:#222222;">풋사과</a></b>
+				      </td>
+					  <td style="width:9%;text-align:center;">
+     					  <a href="#" onclick="alert('test')"; style="color:gray"><i class="fas fa-trash"></i></a>
+					  </td>
+					</tr>
+				    <tr style="">
+					  <td style="">
+					    <b><a style="font-size:13px; color:#4f4f4f;">구매날짜</a></b><br>
+						<b><a style="font-size:16px; color:#222222;">2019.10.09</a></b>
+				      </td>
+					  <td style="">
+					    <b><a style="font-size:13px; color:#4f4f4f;">유통기한</a></b><br>
+						<b><a style="font-size:16px; color:#fe4533;">2020.10.11</a></b>
+				      </td>
+					  <td style=""></td>
+					</tr>
+				  </table>
+                
+				
+				<br>
+				<hr>
+				<br>
+				
+				  <table style="width:100%">
+				    <tr style="">
+					  <td rowspan="2" style="vertical-align:middle; width:30%; height:auto; background-image: url('img/goods4.svg'); background-repeat: no-repeat; background-size:90%;">
+					  </td>
+					  <td colspan="2" style="width:60%;">
+					    <b><a style="font-size:13px; color:#4f4f4f;">하나로마트 양재점</a></b>
+						<br>
+						<b><a style="font-size:16px; color:#222222;">태양초 고추장</a></b>
+				      </td>
+					  <td style="width:9%;text-align:center;">
+     					  <a href="#" onclick="alert('test')"; style="color:gray"><i class="fas fa-trash"></i></a>
+					  </td>
+					</tr>
+				    <tr style="">
+					  <td style="">
+					    <b><a style="font-size:13px; color:#4f4f4f;">구매날짜</a></b><br>
+						<b><a style="font-size:16px; color:#222222;">2019.10.09</a></b>
+				      </td>
+					  <td style="">
+					    <b><a style="font-size:13px; color:#4f4f4f;">유통기한</a></b><br>
+						<b><a style="font-size:16px; color:#fe4533;">2020.10.11</a></b>
+				      </td>
+					  <td style=""></td>
+					</tr>
+				  </table>
+				
+				<br>
+				<hr>
+				<br>
+				
+											
+				  <table style="width:100%">
+				    <tr style="">
+					  <td rowspan="2" style="vertical-align:middle; width:30%; height:auto; background-image: url('img/goods4.svg'); background-repeat: no-repeat; background-size:90%;">
+					  </td>
+					  <td colspan="2" style="width:60%;">
+					    <b><a style="font-size:13px; color:#4f4f4f;">하나로마트 양재점</a></b>
+						<br>
+						<b><a style="font-size:16px; color:#222222;">태양초 고추장</a></b>
+				      </td>
+					  <td style="width:9%;text-align:center;">
+     					  <a href="#" onclick="alert('test')"; style="color:gray"><i class="fas fa-trash"></i></a>
+					  </td>
+					</tr>
+				    <tr style="">
+					  <td style="">
+					    <b><a style="font-size:13px; color:#4f4f4f;">구매날짜</a></b><br>
+						<b><a style="font-size:16px; color:#222222;">2019.10.09</a></b>
+				      </td>
+					  <td style="">
+					    <b><a style="font-size:13px; color:#4f4f4f;">유통기한</a></b><br>
+						<b><a style="font-size:16px; color:#fe4533;">2020.10.11</a></b>
+				      </td>
+					  <td style=""></td>
+					</tr>
+				  </table-->							
+				
+				</div>
+              </div>
+            </div>
+			
+			
+			
+
+
+          </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span><a onclick="devMode();">FoodKeeper Team</a></span>
+			<br>
+			<!--input type="text" value="http://forlab.dothome.co.kr/nh/api" id="devmode" style="display:none"/-->
+			<input type="text" value="http://192.168.0.27:8080" id="devmode" style="display:none"/>
+			
+			<input type="text" value="" id="devmode2" style="display:none; background-color:yellow;"/>
+			<input type="text" value="0" id="devmode3" style="display:none; background-color:green;"/>
+			<input type="text" value="01050180048" id="devmode4" style="display:none; background-color:black;color:white;"/>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Logout Modal-->
+  <div class="modal fade" id="notiModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">알림</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">해당 상품이 정상적으로 삭제되었습니다.</div>
+        <div class="modal-footer">
+          <button class="btn btn-info" type="button" data-dismiss="modal" onclick="popup(0);">OK</button>
+          <!--a class="btn btn-primary" href="#">Logout</a-->
+        </div>
+      </div>
+    </div>
+  </div>  
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+
+  <!-- Page level plugins -->
+  
+  <!--script type="text/javascript" src="cordova.js"></script-->
+  <script type="text/javascript" src="js/index.js"></script>
+  <script>
+  var fcmToken;
+  var sortMode = "true";
+  /*
+      $(document).on('deviceready',function(){
+
+        FCMPlugin.getToken(function(token){
+
+            alert(token);
+			fcmToken = token;
+        });
+
+    })
+	*/
+	
+  getUserFoodInfo();
+
+  
+  function getUserFoodInfo(){
+		$.ajax({
+            url: $("#devmode").val() + "/order_item/lists?custNo=" + $("#devmode4").val() + "&sort=" + sortMode,
+            type: "get",
+            data: {
+			/*
+                "email": $("#user_email").val(),
+                "rfid": $("#rfcard_id").val(),
+                "name": $("#user_name").val(),
+                "company": $("#company_name").val(),
+                "leave": "false"
+              */  
+                //"user_pw" : document.getElementById("exampleInputPassword1").value
+            },
+            dataType: "json",
+            error: function(xhr, ajaxOptions, thrownError){
+				//alert(xhr);
+				//alert(ajaxOptions);
+				//alert(thrownError);
+				var showAlert = setTimeout(function() {
+					getUserFoodInfo();
+				  }, 10000);
+            },
+            success: function(data){
+				var card = "";
+				
+				$("#totalItemNum").html(data.data.items.length + "개");
+				
+				for(var i = 0; i < data.data.items.length; i++){
+					card += '<table style="width:100%">';
+					card += '<tr style="">';//g/" + data.data.items[i].barcode + ".jpg'" +
+					card += '<td rowspan="2" style="vertical-align:middle; width:30%; height:auto; background-image: url(' + "img/goods2.svg" + '); background-repeat: no-repeat; background-size:90%;">';
+					card += '</td>';
+					card += '<td colspan="2" style="width:60%;">';
+					card += '<b><a style="font-size:13px; color:#4f4f4f;">하나로마트 양재점</a></b>';
+					card += '<br>';
+					card += '<b><a style="font-size:16px; color:#222222;">'+ data.data.items[i].skuName +'</a></b><br>';
+					if(data.data.items[i].d_day == "")
+					  card += '<b><a style="font-size:16px; color:gray">유통기한이 지난 상품입니다</a></b>';
+					else
+					  card += '<b><a style="font-size:18px; color:orange">'+ data.data.items[i].d_day +'</a></b>';
+					
+					
+					card += '</td>';
+					card += '<td style="width:9%;text-align:center;">';
+					card += '<a href="#" onclick="sendRemove(' + data.data.items[i].orderItemId + ');" style="color:gray"><i class="fas fa-trash"></i></a>';
+					card += '</td>';
+					card += '</tr>';
+					card += '<tr style="">';
+					card += '<td style="">';
+					card += '<b><a style="font-size:13px; color:#4f4f4f;">구매날짜</a></b><br>';
+					card += '<b><a style="font-size:16px; color:#222222;">' + data.data.items[i].orderedAt + '</a></b>';
+					card += '</td>';
+					card += '<td style="">';
+					card += '<b><a style="font-size:13px; color:#4f4f4f;">유통기한</a></b><br>';
+					card += '<b><a style="font-size:16px; color:#fe4533;">' + data.data.items[i].expiredAt + '</a></b>';
+					card += '</td>';
+					card += '<td style=""></td>';
+					card += '</tr>';
+					card += '</table>';
+					
+					if(i < data.data.items.length-1)
+						card+= '<br><hr><br>';
+					
+				}
+				$("#foodCardList").html(card);
+				$("#devmode3").val(Number($("#devmode3").val()) + 1);
+				  var showAlert = setTimeout(function() {
+					getUserFoodInfo();
+				  }, 3000);
+            }
+        });  
+  }
+  
+  
+    function sendRemove(orderID){
+		$.ajax({
+            url: $("#devmode").val() + "/order_item/notification?orderItemId=" + orderID,
+            type: "put",
+            data: {
+            },
+            dataType: "json",
+            error: function(xhr, ajaxOptions, thrownError){
+				//alert(xhr);
+				//alert(ajaxOptions);
+				//alert(thrownError);
+            },
+            success: function(data){
+				//alert("해당 상품의 알림을 껐습니다!");
+
+				popup(1);
+            }
+        });  
+  }
+
+
+  function testajax(){
+		$.ajax({
+			url: "http://forlab.dothome.co.kr/nh/api/sku",
+			//http://192.168.0.41:8080
+			
+            type: "get",
+            data: {
+			/*
+                "email": $("#user_email").val(),
+                "rfid": $("#rfcard_id").val(),
+                "name": $("#user_name").val(),
+                "company": $("#company_name").val(),
+                "leave": "false"
+              */  
+                //"user_pw" : document.getElementById("exampleInputPassword1").value
+            },
+            dataType: "json",
+            error: function(xhr, ajaxOptions, thrownError){
+				alert(xhr);
+				alert(ajaxOptions);
+				alert(thrownError);
+            },
+            success: function(data){
+				alert(data.name);
+				
+
+            }
+        });
+  }
+  
+	function devMode(){
+		
+		if($("#devmode").css("display") == "none"){
+			$("#devmode2").val(fcmToken);
+			$("#devmode").css("display","block");
+			$("#devmode2").css("display","block");
+			$("#devmode3").css("display","block");
+			$("#devmode4").css("display","block");
+		}
+		else{
+			$("#devmode").css("display","none");
+			$("#devmode2").css("display","none");
+			$("#devmode3").css("display","none");
+			$("#devmode4").css("display","none");			
+		}
+	}
+	
+	function popup(yn){
+		if(yn == 1){
+			$("#notiModal").css("display","block");
+			$("#notiModal").attr("class","modal");
+		}
+		else{
+			$("#notiModal").css("display","none");
+			$("#notiModal").attr("class","fade");		
+		}
+		
+	}
+	
+	function sort_mode(yn){
+		if(yn == 'true'){
+			sortMode = "true";
+			$("#userDropdown3").html("유통기한 임박순");
+		}
+		else{
+			sortMode = "false";
+			$("#userDropdown3").html("구매 날짜순");
+		}
+	}
+	
+	  
+  </script>
+</body>
+
+</html>
